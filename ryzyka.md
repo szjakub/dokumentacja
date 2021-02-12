@@ -1,1 +1,12 @@
 # Ryzyka
+|    Kategoria ryzyka    |                    Ryzyko                   |                                                                         Opis                                                                        |
+|:----------------------:|:-------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------:|
+|         Klient         |          Brak zaangażowania klienta         | Trudności w komunikacji z klientem, długie oczekiwanie na odpowiedź                                                                                 |
+|         Klient         |    Niekompetentny i niedecyzyjny klient     | Klient nie rozumie swoich wymagań, nie wie czego chce                                                                                               |
+|       Technologia      |         Nowa dla nas technologia            | To może wprowadzić duży poziom niepewności. W trakcie realizacji może się okazać, że dana technologia nie pozwala zrealizować wszystkich założeń    |
+|       Technologia      |       Zabezpieczenie danych osobowych       | W takich projektach bardzo ważne jest odpowiednie zabezpieczenie danych osobowych                                                                   |
+|         Biznes         |            Uzasadnienie biznesowe           | Nowo wprowadzany produkt może się nie sprzedać                                                                                                      |
+|         Biznes         | Brak finansowania na zrealizowanie projektu | Brak sponsora, a własne środki są zbyt małe                                                                                                         |
+|    Zespół projektowy   |         Niewiarygodne szacunki czasu        | Zespół nie robił dotąd podobnego projektu, więc planował projekt metodą „ekspercką”                                                                 |
+|    Zespół projektowy   |           Tendencja do pozłacania           | Tzw. „goldplating” może przejawiać się w chęci technologów do testowania jeszcze niesprawdzonych, nowych rozwiązań                                  |
+|      Ryzyko losowe     |            Choroba interesariusza           | Ze względu na mały zespół programistyczny, choroba jednego z interesariuszy może znacząco wpłynąć na rozwój projektu                                |
