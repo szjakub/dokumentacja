@@ -1,7 +1,7 @@
 # Ryzyka
 
 
-Ryzyko jest pojęciem obiektywnym. Ryzyko to kompilacja prawdopodobieństwa lub częstotliwości wystąpienia sytuacji, które zwykle mają negatywne oddziaływanie dla organizacji, jest prawdopodobieństwem poniesienia szkód i strat. W kontekście realizacji projektu ryzyko określa się jako rodzaj niepewności zaistnienia pewnych zdarzeń lub warunków, które w przypadku wystąpienia mogą mieć pozytywny lub negatywny wpływ na przynajmniej jeden z parametrów projektu. Ryzyko w dużym uproszczeniu można zakwalifikować jako prawdopodobieństwo niezrealizowania części bądź całości założeń projektu. Prawdopodobieństwo ryzyka w trakcie życia projektu może się zmieniać.
+Ryzyko projektowe jest pojęciem obiektywnym. Ryzyko to kompilacja prawdopodobieństwa lub częstotliwości wystąpienia sytuacji, które zwykle mają negatywne oddziaływanie dla organizacji, jest prawdopodobieństwem poniesienia szkód i strat. W kontekście realizacji projektu ryzyko określa się jako rodzaj niepewności zaistnienia pewnych zdarzeń lub warunków, które w przypadku wystąpienia mogą mieć pozytywny lub negatywny wpływ na przynajmniej jeden z parametrów projektu. Ryzyko w dużym uproszczeniu można zakwalifikować jako prawdopodobieństwo niezrealizowania części bądź całości założeń projektu. Prawdopodobieństwo ryzyka w trakcie życia projektu może się zmieniać.
 
 Podział całkowitego ryzyka
 — ryzyko systematyczne (zewnętrzne) – determinowane jest przez siły zewnętrzne i nie               podlega kontroli przedmiotu, który jest w jego zasięgu. Ryzyko to jest związane z siłami przyrody, a także z warunkami ekonomicznymi. Ten typ ryzyka nie może być wyeliminowany przez inwestora, do jego źródeł zalicza się m.in. zmianę stopy procentowej, inflacji, przepisów podatkowych. 
