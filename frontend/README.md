@@ -1,0 +1,1 @@
+# Gejowa część projektu
