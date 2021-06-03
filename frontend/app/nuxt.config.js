@@ -39,8 +39,9 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
@@ -53,6 +54,16 @@ export default {
         },
       },
     },
+  },
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        path: '/plan-zajec',
+        component: './pages/lesson-plan.vue',
+        name: 'plan-zajec'
+      })
+    }
+    
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

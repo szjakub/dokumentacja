@@ -2,3 +2,12 @@
 //
 // The variables you want to modify
 // $font-size-root: 20px;
+$container-max-widths: (
+  //   'md': 200,
+  //   'lg': 1000,
+  'xl': 1920px
+);
+$grid-breakpoints: (
+  'lg': 1280px - 16px,
+  'xl': 1820px - 16px,
+);
