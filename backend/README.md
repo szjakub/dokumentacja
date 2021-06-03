@@ -1,1 +1,1 @@
-# Zajebista część projektu
+# Najgorsza część projektu
