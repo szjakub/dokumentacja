@@ -19,3 +19,14 @@ services:
     build:
       context: ./backend
       dockerfile: backend.dockerfile
+  
+  nuxt:
+    build:
+      context: ./frontend
+      dockerfile: frontend.dockerfile
+    volumes:
+      - ./frontend/app:/app
+    restart: always
+    ports:
+      - "3000:3000"
+    command: npm run dev
