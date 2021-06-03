@@ -1,1 +1,1 @@
-# Gejowa część projektu
+# Najlepsza część projektu
