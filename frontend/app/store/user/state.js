@@ -1,3 +1,3 @@
-export default {
+export default () => ({
   example: '123457890',
-}
+})

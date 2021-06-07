@@ -1,5 +1,5 @@
-export const getters = {
+export const getters = () => ({
   getExample: (state) => {
     return state.example
   },
-}
+})
