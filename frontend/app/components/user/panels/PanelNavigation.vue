@@ -45,7 +45,7 @@ export default {
   data: () => ({
     selectedItem: 0,
     items: [
-      { text: 'Mój Plan lekcji', icon: 'mdi-folder', link: 'plan-zajec' },
+      { text: 'Mój Plan lekcji', icon: 'mdi-folder', link: '/plan-zajec' },
       { text: 'Panel obecności', icon: 'mdi-account-multiple', link: '' },
       { text: 'Moje Oceny', icon: 'mdi-star', link: '' },
       { text: 'Moje przedmioty', icon: 'mdi-history', link: '' },
