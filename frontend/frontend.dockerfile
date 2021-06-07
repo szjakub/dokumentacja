@@ -1,11 +1,12 @@
 FROM node:14-alpine
 
-ENV APP_ROOT /app
+WORKDIR /usr/src/app
 
-WORKDIR ${APP_ROOT}
+COPY ./app /usr/src/app
+
+RUN npm i
 
 ENV HOST 0.0.0.0
-
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+CMD [ "npm", "run", "dev"]
