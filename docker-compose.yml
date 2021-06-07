@@ -33,3 +33,5 @@ services:
     ports:
       - "3000:3000"
     command: npm run dev
+    # command: /bin/sh -c "tail -f /dev/null"
+
