@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'api',
     'users',
+    'school',
 
     'rest_framework',
 ]

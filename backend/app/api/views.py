@@ -1,10 +1,10 @@
 from rest_framework import viewsets
-from django.contrib.auth.models import User
+from school import models as school_models
 from api.serializers import (
-    UserSerializer
+    PrincipalSerializer
 )
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class PrincipalViewSet(viewsets.ModelViewSet):
+    queryset = school_models.School.objects.all()
+    serializer_class = PrincipalSerializer
