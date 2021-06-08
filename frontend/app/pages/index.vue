@@ -6,7 +6,7 @@
         <vuetify-logo />
       </div>
       <v-card>
-        <v-card-title class="headline"> 123456 </v-card-title>
+        <v-card-title class="headline"> KUBA ZJEB</v-card-title>
         <v-card-text>
           <p>
             qw456yu is a dddd Material Design component framework for Vue.js. It
