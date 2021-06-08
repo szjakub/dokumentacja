@@ -1,6 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  ssr: false,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - cyprus-frontend',
@@ -20,7 +21,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/filters.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -39,8 +40,9 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
@@ -52,6 +54,22 @@ export default {
           success: colors.green.accent3,
         },
       },
+    },
+  },
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push(
+        {
+          path: '/plan-zajec',
+          component: './pages/lesson-plan/index.vue',
+          name: 'plan-zajec',
+        },
+        {
+          path: '/panel-obecnosci',
+          component: './pages/presence/index.vue',
+          name: 'panel-obecnosci',
+        }
+      )
     },
   },
 
