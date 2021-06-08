@@ -1,4 +1,4 @@
-version: "3.3"
+version: '3.3'
 services:
   db:
     image: postgres:12
@@ -10,23 +10,27 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
 
   backend:
+    build:
+      context: ./backend
+      dockerfile: backend.dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend/app:/app
     ports:
-      - "8000:8000"
+      - '8000:8000'
     depends_on:
       - db
     env_file:
       - .env
-    build:
-      context: ./backend
-      dockerfile: backend.dockerfile
-  
+
   nuxt:
     build:
       context: ./frontend
       dockerfile: frontend.dockerfile
     volumes:
-      - ./frontend/app:/app
+      - ./frontend/app/:/usr/src/app
+      - /usr/src/app/node_modules
     restart: always
     ports:
-      - "3000:3000"
+      - '3000:3000'
     command: npm run dev
