@@ -58,11 +58,18 @@ export default {
   },
   router: {
     extendRoutes(routes, resolve) {
-      routes.push({
-        path: '/plan-zajec',
-        component: './pages/lesson-plan.vue',
-        name: 'plan-zajec',
-      })
+      routes.push(
+        {
+          path: '/plan-zajec',
+          component: './pages/lesson-plan/index.vue',
+          name: 'plan-zajec',
+        },
+        {
+          path: '/panel-obecnosci',
+          component: './pages/presence/index.vue',
+          name: 'panel-obecnosci',
+        }
+      )
     },
   },
 

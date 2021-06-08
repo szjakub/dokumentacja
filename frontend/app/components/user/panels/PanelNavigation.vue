@@ -46,9 +46,13 @@ export default {
     selectedItem: 0,
     items: [
       { text: 'Mój Plan lekcji', icon: 'mdi-folder', link: '/plan-zajec' },
-      { text: 'Panel obecności', icon: 'mdi-account-multiple', link: '' },
-      { text: 'Moje Oceny', icon: 'mdi-star', link: '' },
-      { text: 'Moje przedmioty', icon: 'mdi-history', link: '' },
+      {
+        text: 'Panel obecności',
+        icon: 'mdi-account-multiple',
+        link: '/panel-obecnosci',
+      },
+      { text: 'Moje Oceny', icon: 'mdi-star', link: 'grades' },
+      { text: 'Moje przedmioty', icon: 'mdi-history', link: 'subjects' },
       { text: 'Zadania domowe', icon: 'mdi-check-circle', link: '' },
       { text: 'Sprawdziany i kartkówki', icon: 'mdi-upload', link: '' },
       { text: 'Ogłoszenia', icon: 'mdi-cloud-upload', link: '' },

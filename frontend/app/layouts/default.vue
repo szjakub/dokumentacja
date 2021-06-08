@@ -44,10 +44,10 @@
     <v-main>
       <v-container>
         <v-row align-content="space-between">
-          <v-col cols="3">
+          <v-col cols="12" md="3">
             <panel-navigation></panel-navigation>
           </v-col>
-          <v-col cols="8">
+          <v-col cols="12" md="9" lg="8">
             <nuxt />
           </v-col>
         </v-row>

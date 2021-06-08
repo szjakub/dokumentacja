@@ -1,120 +1,18 @@
 <template>
-  <div>
-    <v-sheet tile height="54" class="d-flex">
-      <v-btn icon class="ma-2" @click="$refs.calendar.prev()">
-        <v-icon>mdi-chevron-left</v-icon>
-      </v-btn>
-      <v-select
-        v-model="type"
-        :items="types"
-        dense
-        outlined
-        hide-details
-        class="ma-2"
-        label="type"
-      ></v-select>
-      <v-select
-        v-model="weekday"
-        :items="weekdays"
-        dense
-        outlined
-        hide-details
-        label="weekdays"
-        class="ma-2"
-      ></v-select>
-      <v-spacer></v-spacer>
-      <v-btn icon class="ma-2" @click="$refs.calendar.next()">
-        <v-icon>mdi-chevron-right</v-icon>
-      </v-btn>
-    </v-sheet>
-    <v-sheet height="700">
-      <v-calendar
-        ref="calendar"
-        v-model="value"
-        :weekdays="weekday"
-        :type="type"
-        :events="events"
-        :event-overlap-threshold="30"
-        :interval-count="12"
-        :event-height="type == 'day' ? 80 : 30"
-        :first-interval="7"
-        :event-color="getEventColor"
-        @change="getEvents"
-        @click:more="showMore"
-        @click:date="showMore"
-      >
-        <template v-slot:event="{ event }">
-          <template v-if="type == 'day'">
-            <div class="pa-2 text-truncate">
-              <nuxt-link
-                :to="{
-                  path: `subjects/${event.name}`,
-                  query: {
-                    subject: event.subjectId,
-                    teacher: event.teacherId,
-                  },
-                }"
-              >
-                <span class="body-1 font-weight-bold">{{ event.name }}</span>
-                <br />
-                {{ event.teacher }}
-                <br />
-                <v-row align="center" class="ma-0">
-                  <v-icon small dark class="mr-2"
-                    >mdi-clock-time-four-outline</v-icon
-                  >
-                  {{ event.start | formatDateHour }} :
-                  {{ event.end | formatDateHour }}
-                </v-row>
-              </nuxt-link>
-            </div>
-          </template>
-          <template v-else>
-            <div class="pa-1 text-truncate">
-              <span class="caption font-weight-bold">{{ event.name }}</span>
-              <!-- <br /> -->
-              <!-- {{ event.teacher }} -->
-            </div>
-          </template>
-        </template>
-      </v-calendar>
-    </v-sheet>
-  </div>
+  <section id="lessson-plan">
+    <Callendar :events="events"></Callendar>
+  </section>
 </template>
 <script>
+import Callendar from '../../components/calendar/index.vue'
 export default {
+  components: {
+    Callendar,
+  },
   data: () => ({
-    type: 'month',
-    types: ['month', 'week', 'day'],
-    weekday: [0, 1, 2, 3, 4, 5, 6],
-    weekdays: [
-      { text: 'Sun - Sat', value: [0, 1, 2, 3, 4, 5, 6] },
-      { text: 'Mon - Fri', value: [1, 2, 3, 4, 5] },
-    ],
-    value: '',
     events: [],
-    colors: [
-      'blue',
-      'indigo',
-      'deep-purple',
-      'cyan',
-      'green',
-      'orange',
-      'grey darken-1',
-    ],
-    names: [
-      'Polski',
-      'Angielski',
-      'WF',
-      'Przysposobienie obronne',
-      'Edukacja wczesnoszkolna',
-      'Matematyka',
-      'Włoski',
-      'Muzyka',
-    ],
   }),
   mounted() {
-    console.log(this.$router.getRoutes())
     this.events = [
       {
         name: 'Matematyka',
@@ -557,46 +455,6 @@ export default {
         teacherId: 123,
       },
     ]
-  },
-  methods: {
-    getEvents({ start, end }) {
-      //  getEvents DB
-      const events = []
-
-      const min = new Date(`${start.date}T00:00:00`)
-      const max = new Date(`${end.date}T23:59:59`)
-      const days = (max.getTime() - min.getTime()) / 86400000
-      const eventCount = this.rnd(days, days + 20)
-
-      for (let i = 0; i < eventCount; i++) {
-        const allDay = false
-        const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-        const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-        const second = new Date(first.getTime() + secondTimestamp)
-
-        events.push({
-          name: this.names[this.rnd(0, this.names.length - 1)],
-          start: first,
-          end: second,
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
-          timed: !allDay,
-          teacher: 'Antonina ' + this.rnd(0, 8),
-        })
-      }
-
-      // this.events = events
-    },
-    getEventColor(event) {
-      return event.color
-    },
-    rnd(a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a
-    },
-    showMore({ date }) {
-      this.value = date
-      this.type = 'day'
-    },
   },
 }
 </script>
