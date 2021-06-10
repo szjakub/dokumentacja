@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'school',
 
     'rest_framework',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +104,10 @@ CACHES = {
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
+
+
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -131,11 +136,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = False
+EMAIL_HOST_USER = 'wseicyprusproject@gmail.com'
+EMAIL_HOST_PASSWORD = 'k83kXTABVxGi6A'
+EMAIL_USE_TLS = True
 
 
 # Internationalization

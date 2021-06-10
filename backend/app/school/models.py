@@ -7,7 +7,7 @@ from django.db import models
 
 class School(models.Model):
     principal = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    principal_email = models.EmailField()
+    principal_email = models.EmailField(max_length=50)
     school_name = models.CharField(max_length=100)
     school_address = models.CharField(max_length=100)
     verified = models.BooleanField(default=False)

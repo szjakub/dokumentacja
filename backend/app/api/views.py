@@ -1,16 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from django.core.mail import send_mail
+
+from school.tasks import send_user_email
 
 
 @api_view(['GET'])
 def test_email(request):
-    send_mail(
-        'Subject here',
-        'Here is the message.',
-        'jakubszkodny@pepisandbox.com',
-        ['jakubszkodny@gmail.com'],
-    )
+    send_user_email.delay()
     return Response({'sie': 'ma'})
 
 
