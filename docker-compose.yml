@@ -9,6 +9,15 @@ services:
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
 
+  redis:
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"
+    volumes:
+      - ./config/redis.conf:/redis.conf
+    command: [ "redis-server", "/redis.conf" ]
+
   backend:
     build:
       context: ./backend
