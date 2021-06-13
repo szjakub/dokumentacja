@@ -8,11 +8,14 @@ from .utils import username_generator, password_generator
 class School(models.Model):
     principal = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     principal_email = models.EmailField(max_length=50, unique=True)
-    school_name = models.CharField(max_length=100)
+    school_name = models.CharField(max_length=100, unique=True)
     school_address = models.CharField(max_length=100)
     verified = models.BooleanField(default=False)
 
     objects = models.Manager()
+
+    def __str__(self):
+        return str(self.school_name)
 
     def save(self, *args, **kwargs):
         if self.verified:

@@ -1,13 +1,18 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from school.models import School
+
+from project import settings
 
 
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = User
+        model = settings.AUTH_USER_MODEL
         fields = ['username', 'password']
 
 
+class SchoolSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = School
+        fields = ['principal_email', 'school_name', 'school_address']

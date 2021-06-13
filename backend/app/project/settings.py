@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'users',
     'school',
 
+    'drf_spectacular',
     'rest_framework',
     'rest_framework.authtoken',
 ]
@@ -116,10 +117,16 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
     ],
-
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Cyprus API',
+    'VERSION': '1.0.0',
 }
 
 # Password validation
