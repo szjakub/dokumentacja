@@ -6,7 +6,7 @@ from school.models import (
 
 @admin.register(School)
 class SchoolAdmin(admin.ModelAdmin):
-    fields = ('principal', 'name', 'address')
+    fields = ('principal', 'principal_email', 'verified', 'school_name', 'school_address')
 
 
 @admin.register(Class)

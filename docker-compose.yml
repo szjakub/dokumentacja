@@ -33,6 +33,7 @@ services:
       - .env
 
   celery:
+    restart: always
     build:
       context: ./backend
       dockerfile: backend.dockerfile
@@ -42,15 +43,6 @@ services:
     depends_on:
       - redis
 
-  celery-beat:
-    build:
-      context: ./backend
-      dockerfile: backend.dockerfile
-    command: celery -A project beat -l info
-    volumes:
-      - ./backend/app:/app
-    depends_on:
-      - redis
 
   nuxt:
     build:

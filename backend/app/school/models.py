@@ -1,13 +1,13 @@
-import uuid
-from hashlib import md5
-
-from django.contrib.auth.models import User
+from project import settings
 from django.db import models
+
+from .tasks import send_user_email
+from .utils import username_generator, password_generator
 
 
 class School(models.Model):
-    principal = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    principal_email = models.EmailField(max_length=50)
+    principal = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
+    principal_email = models.EmailField(max_length=50, unique=True)
     school_name = models.CharField(max_length=100)
     school_address = models.CharField(max_length=100)
     verified = models.BooleanField(default=False)
@@ -16,12 +16,14 @@ class School(models.Model):
 
     def save(self, *args, **kwargs):
         if self.verified:
-            username = uuid.uuid4()
-            password = md5(str(username)).hexdigest()
-            user = User.objects.create_user(
+            username = username_generator(str(self.principal_email))
+            password = password_generator(username)
+            user, created = settings.AUTH_USER_MODEL.objects.get_or_create(
                 username=username, password=password, email=self.principal_email)
-            user.save()
-            self.principal = user
+            if created:
+                user.save()
+                self.principal = user
+                send_user_email.delay(username, password)
         super().save(*args, **kwargs)
 
 
@@ -40,7 +42,7 @@ class Class(models.Model):
 
 
 class Student(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     school_class = models.ForeignKey(Class, related_name='students', on_delete=models.CASCADE)
@@ -49,7 +51,7 @@ class Student(models.Model):
 
 
 class Teacher(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     school = models.ForeignKey(School, related_name='teachers', on_delete=models.CASCADE)
