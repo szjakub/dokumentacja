@@ -1,5 +1,8 @@
 <template>
-  <div>INDEX</div>
+  <div>
+    <h1>takkk21222222</h1>
+    <div></div>
+  </div>
 </template>
 
 <script>
