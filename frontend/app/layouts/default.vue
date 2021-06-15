@@ -13,7 +13,6 @@
               <panel-navigation></panel-navigation>
             </v-col>
           </transition>
-          {{ gettersIP }}
           <transition name="slide-x-transition">
             <v-col
               v-show="(drawer && !columnRouter) || (!drawer && columnRouter)"
