@@ -55,7 +55,7 @@ export default {
     drawer() {
       setTimeout(() => {
         this.columnRouter = !this.columnRouter
-      }, 360)
+      }, 380)
     },
   },
   mounted() {
