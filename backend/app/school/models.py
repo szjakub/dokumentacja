@@ -11,23 +11,12 @@ class School(models.Model):
     school_name = models.CharField(max_length=100, unique=True)
     school_address = models.CharField(max_length=100)
     verified = models.BooleanField(default=False)
+    email_sent = models.BooleanField(default=False)
 
     objects = models.Manager()
 
     def __str__(self):
         return str(self.school_name)
-
-    def save(self, *args, **kwargs):
-        if self.verified:
-            username = username_generator(str(self.principal_email))
-            password = password_generator(username)
-            user, created = settings.AUTH_USER_MODEL.objects.get_or_create(
-                username=username, password=password, email=self.principal_email)
-            if created:
-                user.save()
-                self.principal = user
-                send_user_email.delay(username, password)
-        super().save(*args, **kwargs)
 
 
 class Class(models.Model):

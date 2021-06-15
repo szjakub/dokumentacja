@@ -2,11 +2,13 @@ from django.contrib import admin
 from school.models import (
     School, Class, Teacher, Student
 )
+from .forms import SchoolCreationForm, SchoolChangeForm
 
 
-@admin.register(School)
 class SchoolAdmin(admin.ModelAdmin):
-    fields = ('principal', 'principal_email', 'verified', 'school_name', 'school_address')
+    form = SchoolChangeForm
+    add_form = SchoolCreationForm
+
 
 
 @admin.register(Class)
@@ -23,3 +25,5 @@ class TeacherAdmin(admin.ModelAdmin):
 class StudentAdmin(admin.ModelAdmin):
     fields = ('user', 'first_name', 'last_name', 'school_class')
 
+
+admin.site.register(School, SchoolAdmin)
