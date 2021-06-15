@@ -1,15 +1,21 @@
+from django.contrib.auth import authenticate
+from django.utils.translation import gettext_lazy as _
+
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from users import models as user_models
+from school.models import School
+
+from project import settings
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+
     class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'is_staff']
+        model = settings.AUTH_USER_MODEL
+        fields = ['username', 'password']
 
 
-class StudentSerializer(serializers.ModelSerializer):
+class SchoolSerializer(serializers.ModelSerializer):
+
     class Meta:
-        model = user_models.Student
-        fields = '__all__'
+        model = School
+        fields = ['principal_email', 'school_name', 'school_address']

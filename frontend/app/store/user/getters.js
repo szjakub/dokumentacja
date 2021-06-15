@@ -1,5 +1,6 @@
-export const getters = () => ({
-  getExample: (state) => {
-    return state.example
+const getters = {
+  gettersIP: (state) => {
+    return state.ip
   },
-})
+}
+export default getters

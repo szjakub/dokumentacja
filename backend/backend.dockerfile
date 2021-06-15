@@ -12,3 +12,6 @@ COPY ./app /app
 
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
+
+COPY ./scripts /scripts
+RUN chmod +x /scripts/run_server.sh

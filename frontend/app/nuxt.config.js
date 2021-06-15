@@ -35,7 +35,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: ['@nuxtjs/axios'],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -71,6 +71,12 @@ export default {
         }
       )
     },
+  },
+
+  // axios configuration
+  axios: {
+    // proxy: true
+    baseURL: 'http://localhost:8000/api/',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

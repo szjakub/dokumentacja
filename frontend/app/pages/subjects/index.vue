@@ -22,7 +22,10 @@
             </v-btn>
           </v-list-item-action>
         </v-list-item>
-        <v-divider v-if="i < subjects.length - 1" :key="i"></v-divider>
+        <v-divider
+          v-if="i < subjects.length - 1"
+          :key="`${i} - divider`"
+        ></v-divider>
       </template>
     </v-list>
   </div>

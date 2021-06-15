@@ -1,28 +1,39 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, AbstractUser
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from .managers import CustomUserManager
 
 
-class School(models.Model):
-    principal = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    ROLE_CHOICES = (
+        ('p', 'principal'),
+        ('t', 'teacher'),
+        ('s', 'student')
+    )
 
+    username_validator = UnicodeUsernameValidator()
 
-class Class(models.Model):
-    school = models.ForeignKey(School, related_name='classes', on_delete=models.CASCADE)
-    yearbook = models.SmallIntegerField()
-    class_label = models.CharField(max_length=2)
+    username = models.CharField(
+        _('username'),
+        max_length=150,
+        unique=True,
+        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+        validators=[username_validator],
+        error_messages={
+            'unique': _("A user with that username already exists."),
+        },
+    )
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+    role = models.CharField(max_length=1, choices=ROLE_CHOICES)
 
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = []
 
-class Student(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    school_class = models.ForeignKey(Class, related_name='students', on_delete=models.CASCADE)
+    objects = CustomUserManager()
 
-
-class Teacher(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    school = models.ForeignKey(School, related_name='teachers', on_delete=models.CASCADE)
+    def __str__(self):
+        return self.get_username()
