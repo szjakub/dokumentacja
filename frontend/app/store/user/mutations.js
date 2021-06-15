@@ -1,5 +1,5 @@
 export const mutations = () => ({
-  exampleCounter(state) {
-    state.example += '0'
+  SET_IP(state, data) {
+    state.ip = data
   },
 })

@@ -1,3 +1,3 @@
 export default () => ({
-  example: '123457890',
+  ip: '123457890',
 })

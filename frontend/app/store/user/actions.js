@@ -1,5 +1,6 @@
 export const actions = () => ({
-  example(data) {
-    console.log(data, 'example')
+  async getIP({ commit }) {
+    await this.$axios.$get('http://icanhazip.com')
+    commit('SET_IP', 'haloo')
   },
 })
