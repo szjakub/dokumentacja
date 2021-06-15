@@ -9,11 +9,20 @@ services:
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
 
+  redis:
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"
+    volumes:
+      - ./config/redis.conf:/redis.conf
+    command: [ "redis-server", "/redis.conf" ]
+
   backend:
     build:
       context: ./backend
       dockerfile: backend.dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
+    command: /scripts/run_server.sh
     volumes:
       - ./backend/app:/app
     ports:
@@ -22,6 +31,18 @@ services:
       - db
     env_file:
       - .env
+
+  celery:
+    restart: always
+    build:
+      context: ./backend
+      dockerfile: backend.dockerfile
+    command: celery -A project worker -l info
+    volumes:
+      - ./backend/app:/app
+    depends_on:
+      - redis
+
 
   nuxt:
     build:

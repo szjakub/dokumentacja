@@ -1,12 +1,25 @@
 from django.urls import path, include
 from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
+from drf_spectacular.views import (
+    SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+)
+from api.views import (
+    test_email, CreateSchool
+)
 
-from api.views import UserViewSet
 
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
+
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls')),
+    path('api-token-auth/', obtain_auth_token),
+    path('test-email/', test_email),
+    path('schools/create/', CreateSchool.as_view(), name='school-create'),
+
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
