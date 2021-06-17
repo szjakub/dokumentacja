@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dane konta</title>
+
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans"/>
+</head>
+<style>
+    body {
+        font-family: "Open Sans", serif;
+        background-image: linear-gradient(to bottom, #5a009e, #34005c);
+        background-repeat: no-repeat;
+        height: auto;
+        color: #d1d1d1;
+    }
+
+    h1 {
+        margin-bottom: 30px;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    li {
+        margin: 10px;
+    }
+
+    .button {
+        color: #fff !important;
+        text-transform: uppercase;
+        text-decoration: none;
+        background: #ed3330;
+        padding: 15px;
+        border-radius: 5px;
+        display: inline-block;
+        border: none;
+        transition: all 0.4s ease 0s;
+    }
+
+    .button:hover {
+        background: #434343;
+        letter-spacing: 1px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+        transition: all 0.4s ease 0s;
+    }
+
+</style>
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center">
+      {% block content %}
+      {% endblock %}
+    </br>
+    <p>Projekt &reg; Cyprus {% now 'Y' %}</p>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -7,10 +7,13 @@ from .managers import CustomUserManager
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    PRINCIPAL = 'p'
+    TEACHER = 't'
+    STUDENT = 's'
     ROLE_CHOICES = (
-        ('p', 'principal'),
-        ('t', 'teacher'),
-        ('s', 'student')
+        (PRINCIPAL, 'principal'),
+        (TEACHER, 'teacher'),
+        (STUDENT, 'student')
     )
 
     username_validator = UnicodeUsernameValidator()

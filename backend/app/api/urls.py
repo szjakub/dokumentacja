@@ -5,7 +5,7 @@ from drf_spectacular.views import (
     SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 )
 from api.views import (
-    test_email, CreateSchool
+    CreateSchool
 )
 
 
@@ -15,7 +15,6 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     path('api-token-auth/', obtain_auth_token),
-    path('test-email/', test_email),
     path('schools/create/', CreateSchool.as_view(), name='school-create'),
 
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
