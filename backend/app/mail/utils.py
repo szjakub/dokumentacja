@@ -1,8 +1,5 @@
-import datetime
-from django.template.loader import render_to_string
+from django.template.loader import get_template
 
 
 def render_template(template_name, context):
-
-    return render_to_string(template_name, {**context})
-
+    return get_template(template_name).render({**context})

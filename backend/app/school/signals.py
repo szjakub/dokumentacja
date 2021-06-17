@@ -21,11 +21,11 @@ def send_email_with_school_creds(sender, instance=None, created=False, **kwargs)
         user.save()
     if instance.verified and not instance.email_sent:
         new_school_created_email.delay(
-            instance.principal_email,
-            instance.school_name,
-            instance.school_address,
-            username,
-            password
+            to=instance.principal_email,
+            school_name=instance.school_name,
+            school_address=instance.school_address,
+            username=username,
+            password=password
         )
 
 

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'api',
+    'mail',
     'users',
     'school',
 
@@ -156,6 +157,7 @@ EMAIL_HOST_USER = 'wseicyprusproject@gmail.com'
 EMAIL_HOST_PASSWORD = 'k83kXTABVxGi6A'
 EMAIL_USE_TLS = True
 
+EMAIL_ADMIN = 'wseicyprusproject@gmail.com'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
