@@ -1,9 +1,6 @@
 from project import settings
 from django.db import models
 
-from .tasks import send_user_email
-from .utils import username_generator, password_generator
-
 
 class School(models.Model):
     principal = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)

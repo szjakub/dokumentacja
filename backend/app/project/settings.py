@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'api',
+    'mail',
     'users',
     'school',
 
@@ -64,7 +65,9 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates/'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -154,6 +157,7 @@ EMAIL_HOST_USER = 'wseicyprusproject@gmail.com'
 EMAIL_HOST_PASSWORD = 'k83kXTABVxGi6A'
 EMAIL_USE_TLS = True
 
+EMAIL_ADMIN = 'wseicyprusproject@gmail.com'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
