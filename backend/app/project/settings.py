@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+ADMINS = ['admin']
+ADMIN_DEFAULT_PASSWORD = 'admin'
 
 # Application definition
 
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     'api',
     'users',
     'school',
+    'common',
 
     'drf_spectacular',
     'rest_framework',
