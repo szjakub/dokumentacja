@@ -2,11 +2,10 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Abstr
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class CyprusUser(AbstractBaseUser, PermissionsMixin):
     PRINCIPAL = 'p'
     TEACHER = 't'
     STUDENT = 's'
@@ -15,23 +14,18 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         (TEACHER, 'teacher'),
         (STUDENT, 'student')
     )
-
-    username_validator = UnicodeUsernameValidator()
+    role = models.CharField(max_length=1, choices=ROLE_CHOICES)
 
     username = models.CharField(
-        _('username'),
-        max_length=150,
-        unique=True,
-        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
-        validators=[username_validator],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
+        'username', max_length=150, unique=True, validators=[UnicodeUsernameValidator],
     )
+    email = models.EmailField()
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    role = models.CharField(max_length=1, choices=ROLE_CHOICES)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []

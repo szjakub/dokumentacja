@@ -43,7 +43,6 @@ services:
     depends_on:
       - redis
 
-
   nuxt:
     build:
       context: ./frontend

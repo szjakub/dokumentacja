@@ -25,4 +25,4 @@ Tutaj podajecie credsy superusera, którego storzyliście wcześniej
     /admin/
 
 ### API Swagger
-    /api/schema/swagger-ui/
+    /api/docs/

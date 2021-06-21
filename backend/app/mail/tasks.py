@@ -8,13 +8,28 @@ from project.settings import EMAIL_ADMIN
 logger = get_task_logger(__name__)
 
 
-@task(name="new_school_email")
-def new_school_created_email(to, **context):
-    message = render_template('mail/new_school_email.html', context)
+@task(name="school_request_email")
+def school_request_email(to, **context):
+    message = render_template('mail/school_request_email.html', context)
 
     logger.info(f"Sending email to {to}")
     mail = EmailMessage(
         subject='Witamy w aplikacji Cyprus',
+        body=message,
+        from_email=EMAIL_ADMIN,
+        to=[to]
+    )
+    mail.content_subtype = "html"
+    return mail.send()
+
+
+@task(name="school_created_email")
+def school_created_email(to, **context):
+    message = render_template('mail/school_created_email.html', context)
+
+    logger.info(f"Sending email to {to}")
+    mail = EmailMessage(
+        subject='Rejestracja szkoły',
         body=message,
         from_email=EMAIL_ADMIN,
         to=[to]
