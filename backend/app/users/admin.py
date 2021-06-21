@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from users.models import CustomUser
+from users.models import CyprusUser
 
 from .forms import UserCreationForm, UserChangeForm
 
@@ -20,7 +20,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'password1', 'password2', 'role', 'date_joined', ),
+            'fields': ('username', 'password1', 'password2', 'role', 'date_joined',),
         }),
     )
 
@@ -29,5 +29,5 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-admin.site.register(CustomUser, UserAdmin)
+admin.site.register(CyprusUser, UserAdmin)
 admin.site.unregister(Group)

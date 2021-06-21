@@ -7,6 +7,7 @@ class CustomUserManager(BaseUserManager):
     Custom user model manager where login is the unique identifiers
     for authentication instead of usernames.
     """
+
     def create_user(self, username, password, **extra_fields):
         """
         Create and save a User with the given login and password.
