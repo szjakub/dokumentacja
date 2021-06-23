@@ -3,7 +3,6 @@ from django.db import models
 
 
 class School(models.Model):
-    principal = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     school_name = models.CharField(max_length=100, unique=True)
     school_address = models.CharField(max_length=100)
     verified = models.BooleanField(default=False)
@@ -30,14 +29,21 @@ class Class(models.Model):
 
 
 class Student(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    school_class = models.ForeignKey(Class, related_name='students', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
+    school = models.ForeignKey(School, related_name='school_students', on_delete=models.CASCADE)
 
     objects = models.Manager()
 
 
 class Teacher(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    school = models.ForeignKey(School, related_name='teachers', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
+    school = models.ForeignKey(School, related_name='school_teachers', on_delete=models.CASCADE)
+
+    objects = models.Manager()
+
+
+class Principal(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
+    school = models.OneToOneField(School, related_name='school_principal', on_delete=models.CASCADE)
 
     objects = models.Manager()
