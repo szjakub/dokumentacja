@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.contrib.auth import get_user_model
 from mail.tasks import school_created_email
 from users.utils import password_generator
-from .models import School
+from .models import School, Principal
 
 User = get_user_model()
 
@@ -11,7 +11,7 @@ User = get_user_model()
 @receiver(post_save, sender=School)
 def send_email_with_school_creds(sender, instance=None, **kwargs):
     if instance.verified and not instance.email_sent:
-        principal = instance.principal
+        principal = instance.school_principal.user
         password = password_generator()
         principal.set_password(password)
         principal.save()
