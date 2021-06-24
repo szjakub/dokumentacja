@@ -1,9 +1,13 @@
+import logging
+
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from school.models import School, Class, Student, Teacher, Principal
+from school.models import School, SchoolClass, Student, Teacher, Principal
 from users.utils import username_generator, password_generator
 from mail.tasks import school_request_email
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -50,17 +54,37 @@ class SchoolRequestSerializer(serializers.ModelSerializer):
 
 
 class ClassSerializer(serializers.ModelSerializer):
-    students = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    class_students = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
-        model = Class
-        fields = ['id', 'yearbook', 'class_label', 'students']
+        model = SchoolClass
+        fields = ['id', 'yearbook', 'class_label', 'class_students']
+
+    def validate_class_label(self, data):
+        if not data.isalpha():
+            raise serializers.ValidationError('class_label must be letter from alphabet')
+        return data.upper()
+
+    def validate(self, data):
+        request = self.context.get('request')
+        principal = Principal.objects.get(user=request.user)
+        school = School.objects.get(school_principal=principal)
+        try:
+            SchoolClass.objects.get(
+                school=school,
+                yearbook=data['yearbook'],
+                class_label=data['class_label']
+            )
+        except SchoolClass.DoesNotExist:
+            return data
+        raise serializers.ValidationError(
+            'school_class with such yearbook and class_label already exists')
 
     def create(self, validated_data):
         request = self.context.get('request')
-
-        school = School.objects.get(principal=request.user)
-        new_class = Class.objects.create(
+        principal = Principal.objects.get(user=request.user)
+        school = School.objects.get(school_principal=principal)
+        new_class = SchoolClass.objects.create(
             school=school,
             yearbook=validated_data['yearbook'],
             class_label=validated_data['class_label']
