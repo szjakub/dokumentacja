@@ -13,16 +13,6 @@
       class="d-flex align-center flex-column"
       @submit.prevent="handleRegistration"
     >
-      <v-col cols="12" md="4"
-        ><v-text-field
-          id="registrationEmail"
-          v-model="registration.principalEmail"
-          :rules="emailRules"
-          label="Email"
-          required
-        ></v-text-field
-      ></v-col>
-
       <v-col cols="12" md="4">
         <v-text-field
           id="schoolName"
@@ -60,15 +50,10 @@ export default {
   data() {
     return {
       registration: {
-        principalEmail: '',
         schoolName: '',
         schoolAddress: '',
       },
       inputRules: [(v) => !!v || 'Pole nie może byc puste'],
-      emailRules: [
-        (v) => v.length > 0 || 'Pole nie może być puste',
-        (v) => /.+@.+\..+/.test(v) || 'Adres e-mail musi być poprawny',
-      ],
     }
   },
   methods: {
@@ -78,11 +63,10 @@ export default {
       }
     },
     handleRegistration(e) {
-      const email = this.registration.principalEmail
       const schoolName = this.registration.schoolName
       const schoolAddress = this.registration.schoolAddress
       if (this.$refs.form.validate()) {
-        console.log(email, schoolName, schoolAddress)
+        console.log(schoolName, schoolAddress)
       } else console.log('puste')
     },
   },
