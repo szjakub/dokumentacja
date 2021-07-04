@@ -5,29 +5,29 @@
       md="12"
       class="d-flex justify-center align-center flex-column"
     >
-      <h2>Logowanie</h2>
+      <h2>Rejestracja szkoły</h2>
     </v-col>
+
     <v-form
       ref="form"
       class="d-flex align-center flex-column"
-      @submit.prevent="handleLogin"
+      @submit.prevent="handleRegistration"
     >
       <v-col cols="12" md="4">
         <v-text-field
-          id="loginUsername"
-          v-model="login.username"
+          id="schoolName"
+          v-model="registration.schoolName"
           :rules="inputRules"
-          label="Nazwa użytkownika"
+          label="Nazwa szkoły"
           required
         ></v-text-field>
       </v-col>
-
       <v-col cols="12" md="4">
         <v-text-field
-          id="loginPassword"
-          v-model="login.password"
+          id="schoolAddress"
+          v-model="registration.schoolAddress"
           :rules="inputRules"
-          label="Hasło"
+          label="Adres szkoły"
           required
         ></v-text-field>
       </v-col>
@@ -35,39 +35,37 @@
         <v-btn
           type="submit"
           color="success"
-          class="mr-4 rounded-xl"
+          class="md-4 rounded-xl"
           @click="submit"
         >
-          Zaloguj się
+          Rejestracja
         </v-btn>
       </v-col>
     </v-form>
   </v-col>
 </template>
-
 <script>
 export default {
-  layout: 'login',
   data() {
     return {
-      login: {
-        username: '',
-        password: '',
+      registration: {
+        schoolName: '',
+        schoolAddress: '',
       },
-      inputRules: [(v) => v.length > 0 || 'Pole nie może byc puste'],
+      inputRules: [(v) => !!v || 'Pole nie może byc puste'],
     }
   },
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        this.handleLogin()
+        this.handleRegistration()
       }
     },
-    handleLogin(e) {
-      const Login = this.login.username
-      const Password = this.login.password
-      if (Login && Password) {
-        console.log(Login, Password)
+    handleRegistration(e) {
+      const schoolName = this.registration.schoolName
+      const schoolAddress = this.registration.schoolAddress
+      if (this.$refs.form.validate()) {
+        console.log(schoolName, schoolAddress)
       } else console.log('puste')
     },
   },
