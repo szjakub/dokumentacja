@@ -11,7 +11,8 @@ from api.permissions import (
     StudentAccessPermission, TeacherAccessPermission, PrincipalAccessPermission
 )
 from api.serializers import (
-    SchoolRequestSerializer,  ClassSerializer, StudentSerializer
+    SchoolRequestSerializer,  ClassSerializer, StudentSerializer,
+    StudentReadOnlySerializer
 )
 from school.models import SchoolClass, School, Student, Principal
 
@@ -64,6 +65,16 @@ class ClassViewSet(viewsets.ViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
 
+class StudentReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+    permission_classes = [IsAuthenticated, TeacherAccessPermission | PrincipalAccessPermission]
+
+    def get_queryset(self):
+        role_class = self.request.user.get_role_class()
+        return Student.objects.filter(school=role_class.school)
+
+
 class StudentViewSet(viewsets.ViewSet):
     authentication_classes = (TokenAuthentication,)
 
@@ -71,15 +82,6 @@ class StudentViewSet(viewsets.ViewSet):
         principal = Principal.objects.get(user=request.user)
         school = School.objects.get(school_principal=principal)
         return Student.objects.filter(school=school)
-
-    @extend_schema(
-        request=StudentSerializer,
-        responses={200: StudentSerializer}, )
-    @permission_classes([IsAuthenticated, TeacherAccessPermission | PrincipalAccessPermission])
-    def list(self, request):
-        queryset = self.get_queryset(request)
-        serializer = StudentSerializer(queryset, many=True)
-        return Response(serializer.data)
 
     @extend_schema(
         request=StudentSerializer,

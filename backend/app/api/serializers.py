@@ -93,7 +93,29 @@ class ClassSerializer(serializers.ModelSerializer):
         return new_class
 
 
+class StudentReadOnlySerializer(serializers.Serializer):
+    first_name = serializers.ReadOnlyField()
+    last_name = serializers.CharField()
+    yearbook = serializers.IntegerField()
+    class_label = serializers.CharField()
+
+
 class StudentSerializer(serializers.ModelSerializer):
+    user = CyprusUserSerializer()
+    yearbook = serializers.ModelField(model_field=SchoolClass()._meta.get_field('yearbook'))
+    class_label = serializers.ModelField(model_field=SchoolClass()._meta.get_field('class_label'))
+
     class Meta:
         model = Student
-        fields = '__all__'
+        fields = ['user', 'yearbook', 'class_label']
+
+    def validate_class_label(self, data):
+        if not data.isalpha():
+            raise serializers.ValidationError('class_label must be letter from alphabet')
+        return data.upper()
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        principal = Principal.objects.get(user=request.user)
+        school = School.objects.get(school_principal=principal)
+
