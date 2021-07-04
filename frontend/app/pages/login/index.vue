@@ -4,6 +4,7 @@
     id="login"
   >
     <h1>Logowanie</h1>
+    {{ errors }}
     <v-col class="12 flex-grow-0">
       <v-form
         ref="form"
@@ -32,12 +33,7 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" class="d-flex justify-center">
-          <v-btn
-            type="submit"
-            color="success"
-            class="mr-4 rounded-xl"
-            @click="submit"
-          >
+          <v-btn type="submit" color="success" class="mr-4 rounded-xl">
             Zaloguj się
           </v-btn>
         </v-col>
@@ -47,6 +43,8 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex'
+
 export default {
   layout: 'login',
   data() {
@@ -55,27 +53,31 @@ export default {
         username: '',
         password: '',
       },
+      errors: {},
       inputRules: [(v) => v.length > 0 || 'Pole nie może byc puste'],
     }
   },
   methods: {
-    submit() {
+    handleLogin(e) {
       if (this.$refs.form.validate()) {
-        this.handleLogin()
+        this.loginAction(this.login)
+          .then((e) => {
+            this.$axios.setToken(e.token, 'Token')
+            this.setToken(e.token)
+            this.$router.push('news')
+            window.sessionStorage.setItem('token', e.token)
+          })
+          .catch((e) => {
+            this.errors = e.response.data
+          })
       }
     },
-    handleLogin(e) {
-      const Login = this.login.username
-      const Password = this.login.password
-      if (Login && Password) {
-        console.log(Login, Password)
-      } else console.log('puste')
-    },
-  },
-  mounted() {
-    this.$axios.setHeader('Content-Type', 'application/x-www-form-urlencoded', [
-      'post',
-    ])
+    ...mapMutations({
+      setToken: 'user/SET_TOKEN',
+    }),
+    ...mapActions({
+      loginAction: 'user/login',
+    }),
   },
 }
 </script>

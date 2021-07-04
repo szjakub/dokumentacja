@@ -1,6 +1,6 @@
 const getters = {
-  gettersIP: (state) => {
-    return state.ip
+  GET_TOKEN: (state) => {
+    return state.token
   },
 }
 export default getters
