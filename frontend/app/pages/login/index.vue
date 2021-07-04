@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   layout: 'login',
   data() {
@@ -59,23 +61,16 @@ export default {
     }
   },
   methods: {
-    submit() {
+    handleLogin(e) {
       if (this.$refs.form.validate()) {
-        this.handleLogin()
+        this.loginAction(this.login).then((e) => {
+          console.log(e, 'eeee')
+        })
       }
     },
-    handleLogin(e) {
-      const Login = this.login.username
-      const Password = this.login.password
-      if (Login && Password) {
-        console.log(Login, Password)
-      } else console.log('puste')
-    },
-  },
-  mounted() {
-    this.$axios.setHeader('Content-Type', 'application/x-www-form-urlencoded', [
-      'post',
-    ])
+    ...mapActions({
+      loginAction: 'user/login',
+    }),
   },
 }
 </script>
