@@ -4,6 +4,6 @@ export const getIp = async ({ commit }) => {
 }
 
 export const schoolRegister = async function ({ commit }, params) {
-  const schoolPost = await this.$axios.$post('/schools', params)
+  const schoolPost = await this.$axios.$post('/schools/', params)
   return schoolPost
 }
