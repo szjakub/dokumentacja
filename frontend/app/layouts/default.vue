@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import PanelNavigation from '~/components/user/panels/PanelNavigation.vue'
 
 export default {
@@ -61,9 +61,6 @@ export default {
   mounted() {
     console.log(this)
     // console.log(this)
-  },
-  methods: {
-    ...mapActions({ getIP: 'user/actions' }),
   },
 }
 </script>

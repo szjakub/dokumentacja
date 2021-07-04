@@ -77,6 +77,7 @@ export default {
   axios: {
     // proxy: true
     baseURL: 'http://localhost:8000/api/',
+    crossDomain: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

@@ -13,7 +13,7 @@ from api.permissions import (
 from api.serializers import (
     SchoolRequestSerializer,  ClassSerializer, StudentSerializer
 )
-from school.models import Class, School, Student
+from school.models import SchoolClass, School, Student, Principal
 
 
 class SchoolViewSet(viewsets.ViewSet):
@@ -35,8 +35,9 @@ class ClassViewSet(viewsets.ViewSet):
     authentication_classes = (TokenAuthentication,)
 
     def get_queryset(self, request):
-        school = School.objects.filter(principal=request.user).first()
-        return Class.objects.filter(school=school)
+        principal = Principal.objects.get(user=request.user)
+        school = School.objects.get(school_principal=principal)
+        return SchoolClass.objects.filter(school=school)
 
     @extend_schema(
         request=ClassSerializer,
@@ -67,9 +68,9 @@ class StudentViewSet(viewsets.ViewSet):
     authentication_classes = (TokenAuthentication,)
 
     def get_queryset(self, request):
-        school = School.objects.filter(principal=request.user).first()
-        school_class = Class.objects.filter(school=school).first()
-        return Student.objects.filter(school_class=school_class)
+        principal = Principal.objects.get(user=request.user)
+        school = School.objects.get(school_principal=principal)
+        return Student.objects.filter(school=school)
 
     @extend_schema(
         request=StudentSerializer,
@@ -98,5 +99,3 @@ class StudentViewSet(viewsets.ViewSet):
     def retrieve(self, request, pk):
         queryset = self.get_queryset(request).filter(pk=pk).first()
         return StudentSerializer(queryset)
-
-

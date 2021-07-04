@@ -1,25 +1,49 @@
 <template>
-  <v-form ref="form" @submit.prevent="handleLogin">
-    <v-text-field
-      id="loginUsername"
-      v-model="login.username"
-      :rules="inputRules"
-      label="Nazwa użytkownika"
-      required
-    ></v-text-field>
+  <div
+    class="login form d-flex align-center justify-center flex-column"
+    id="login"
+  >
+    <h1>Logowanie</h1>
+    <v-col class="12 flex-grow-0">
+      <v-form
+        ref="form"
+        class="d-flex flex-column"
+        @submit.prevent="handleLogin"
+      >
+        <v-col cols="12">
+          <v-text-field
+            filled
+            id="loginUsername"
+            v-model="login.username"
+            :rules="inputRules"
+            label="Nazwa użytkownika"
+            required
+          ></v-text-field>
+        </v-col>
 
-    <v-text-field
-      id="loginPassword"
-      v-model="login.password"
-      :rules="inputRules"
-      label="Hasło"
-      required
-    ></v-text-field>
-
-    <v-btn type="submit" color="success" class="mr-4" @click="submit">
-      Zaloguj
-    </v-btn>
-  </v-form>
+        <v-col cols="12">
+          <v-text-field
+            filled
+            id="loginPassword"
+            v-model="login.password"
+            :rules="inputRules"
+            label="Hasło"
+            required
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" class="d-flex justify-center">
+          <v-btn
+            type="submit"
+            color="success"
+            class="mr-4 rounded-xl"
+            @click="submit"
+          >
+            Zaloguj się
+          </v-btn>
+        </v-col>
+      </v-form>
+    </v-col>
+  </div>
 </template>
 
 <script>
@@ -48,5 +72,15 @@ export default {
       } else console.log('puste')
     },
   },
+  mounted() {
+    this.$axios.setHeader('Content-Type', 'application/x-www-form-urlencoded', [
+      'post',
+    ])
+  },
 }
 </script>
+<style scoped>
+#login {
+  height: 100%;
+}
+</style>
