@@ -32,10 +32,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import PanelNavigation from '~/components/user/panels/PanelNavigation.vue'
 
 export default {
+  middleware: 'authenticated',
   components: {
     'panel-navigation': PanelNavigation,
   },
@@ -46,21 +46,12 @@ export default {
       title: 'Cyprus',
     }
   },
-  computed: {
-    ...mapGetters({
-      gettersIP: 'user/gettersIP',
-    }),
-  },
   watch: {
     drawer() {
       setTimeout(() => {
         this.columnRouter = !this.columnRouter
       }, 380)
     },
-  },
-  mounted() {
-    console.log(this)
-    // console.log(this)
   },
 }
 </script>

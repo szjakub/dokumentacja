@@ -4,6 +4,7 @@
     id="registration"
   >
     <h1>Rejestracja szkoły</h1>
+    {{ errors }}
     <v-col class="12 flex-grow-0">
       <v-form
         ref="form"
@@ -82,6 +83,7 @@ export default {
           school_address: 'a',
         },
       },
+      errors: {},
       inputRules: [(v) => !!v || 'Pole nie może byc puste'],
     }
   },
@@ -91,9 +93,13 @@ export default {
     }),
 
     handleRegistration(e) {
-      this.schoolRegister(this.registration).then((e) => {
-        console.log(e, 'eeee')
-      })
+      this.schoolRegister(this.registration)
+        .then((e) => {
+          this.$router.push('login')
+        })
+        .catch((e) => {
+          this.errors = e.response.data
+        })
     },
   },
 }

@@ -4,6 +4,7 @@
     id="login"
   >
     <h1>Logowanie</h1>
+    {{ errors }}
     <v-col class="12 flex-grow-0">
       <v-form
         ref="form"
@@ -32,12 +33,7 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" class="d-flex justify-center">
-          <v-btn
-            type="submit"
-            color="success"
-            class="mr-4 rounded-xl"
-            @click="submit"
-          >
+          <v-btn type="submit" color="success" class="mr-4 rounded-xl">
             Zaloguj się
           </v-btn>
         </v-col>
@@ -47,7 +43,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   layout: 'login',
@@ -57,17 +53,28 @@ export default {
         username: '',
         password: '',
       },
+      errors: {},
       inputRules: [(v) => v.length > 0 || 'Pole nie może byc puste'],
     }
   },
   methods: {
     handleLogin(e) {
       if (this.$refs.form.validate()) {
-        this.loginAction(this.login).then((e) => {
-          console.log(e, 'eeee')
-        })
+        this.loginAction(this.login)
+          .then((e) => {
+            this.$axios.setToken(e.token, 'Token')
+            this.setToken(e.token)
+            this.$router.push('news')
+            window.sessionStorage.setItem('token', e.token)
+          })
+          .catch((e) => {
+            this.errors = e.response.data
+          })
       }
     },
+    ...mapMutations({
+      setToken: 'user/SET_TOKEN',
+    }),
     ...mapActions({
       loginAction: 'user/login',
     }),

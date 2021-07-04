@@ -1,3 +1,6 @@
 export default () => ({
-  ip: '123457890',
+  token:
+    window.sessionStorage.getItem('token') != null
+      ? window.sessionStorage.getItem('token')
+      : null,
 })
