@@ -1,6 +1,13 @@
 <template>
   <v-app dark>
-    <nuxt />
+    <v-row>
+      <v-col cols="6" class="py-0">
+        <v-img height="100%" position="left center" src="/main.jpg"> </v-img>
+      </v-col>
+      <v-col cols="6" class="py-0">
+        <nuxt />
+      </v-col>
+    </v-row>
   </v-app>
 </template>
 
