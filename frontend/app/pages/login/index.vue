@@ -64,16 +64,24 @@ export default {
           .then((e) => {
             this.$axios.setToken(e.token, 'Token')
             this.setToken(e.token)
+            // to change
+            this.setType('principal')
             this.$router.push('news')
             window.sessionStorage.setItem('token', e.token)
+            window.sessionStorage.setItem('type', 'principal')
           })
           .catch((e) => {
-            this.errors = e.response.data
+            if (e.response) {
+              this.errors = e.response.data
+            } else {
+              console.error(e.message)
+            }
           })
       }
     },
     ...mapMutations({
       setToken: 'user/SET_TOKEN',
+      setType: 'user/SET_TYPE_USER',
     }),
     ...mapActions({
       loginAction: 'user/login',
