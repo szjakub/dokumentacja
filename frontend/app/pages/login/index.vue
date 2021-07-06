@@ -33,8 +33,17 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" class="d-flex justify-center">
-          <v-btn type="submit" color="success" class="mr-4 rounded-xl">
+          <v-btn type="submit" color="success" class="mr-4" large>
             Zaloguj się
+          </v-btn>
+          <v-btn
+            :to="'/registration'"
+            type="submit"
+            color="info"
+            class="mr-4"
+            large
+          >
+            Zarejestruj się
           </v-btn>
         </v-col>
       </v-form>
@@ -66,7 +75,7 @@ export default {
             this.setToken(e.token)
             // to change
             this.setType('principal')
-            this.$router.push('news')
+            this.$router.push('principal')
             window.sessionStorage.setItem('token', e.token)
             window.sessionStorage.setItem('type', 'principal')
           })

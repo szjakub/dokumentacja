@@ -57,8 +57,11 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" class="d-flex justify-center">
-          <v-btn type="submit" color="success" class="md-4 rounded-xl">
+          <v-btn type="submit" color="success" class="mr-4" large>
             Rejestracja
+          </v-btn>
+          <v-btn :to="'/login'" type="submit" color="info" class="mr-4" large>
+            Zaloguj się
           </v-btn>
         </v-col>
       </v-form>

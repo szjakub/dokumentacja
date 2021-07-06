@@ -3,12 +3,12 @@
     <v-form
       ref="form"
       class="d-flex flex-column"
-      @submit.prevent="handleEditUser"
+      @submit.prevent="handleEditTeacher"
     >
       <v-col cols="12">
         <v-text-field
           filled
-          v-model="user.name"
+          v-model="teacher.name"
           :rules="inputRules"
           label="Imię"
           required
@@ -17,7 +17,7 @@
       <v-col cols="12">
         <v-text-field
           filled
-          v-model="user.surname"
+          v-model="teacher.surname"
           :rules="inputRules"
           label="Nazwisko"
           required
@@ -26,12 +26,21 @@
       <v-col cols="12">
         <v-select
           filled
-          v-model="user.class"
+          v-model="teacher.class"
           :rules="inputRules"
           label="Klasa"
-          :items="['5a', '5b']"
+          :items="['1a', '2b']"
           required
         ></v-select>
+      </v-col>
+      <v-col cols="12">
+        <v-text-field
+          filled
+          v-model="teacher.title"
+          :rules="inputRules"
+          label="Tytuł"
+          required
+        ></v-text-field>
       </v-col>
 
       <v-col cols="12" class="d-flex justify-center">
@@ -46,13 +55,14 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'editUser',
+  name: 'editTeacher',
   data() {
     return {
-      user: {
+      teacher: {
         name: '',
         surname: '',
         class: '',
+        title: '',
       },
       id: 1,
       errors: {},
@@ -60,26 +70,23 @@ export default {
     }
   },
   created() {
-    if (
-      this.$router.currentRoute.params &&
-      this.$router.currentRoute.params.item !== 'new'
-    ) {
-      this.getStudent(this.id).then((res) => {
-        this.user = res
-      })
-    }
+    this.getTeacher(this.id).then((res) => {
+      this.teacher = res
+    })
   },
   methods: {
-    handleEditUser(e) {
+    handleEditTeacher(e) {
       if (this.$refs.form.validate()) {
-        this.updateStudent({ ...this.user, ...{ id: this.id } }).then((e) => {
-          this.$router.push(`/principal/users`)
-        })
+        this.updateTeacher({ ...this.teacher, ...{ id: this.id } }).then(
+          (e) => {
+            this.$router.push(`/principal/teachers`)
+          }
+        )
       }
     },
     ...mapActions({
-      updateStudent: 'students/updateStudent',
-      getStudent: 'students/getStudent',
+      updateTeacher: 'teachers/updateTeacher',
+      getTeacher: 'teachers/getTeacher',
     }),
   },
 }

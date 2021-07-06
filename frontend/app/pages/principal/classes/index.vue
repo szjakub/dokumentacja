@@ -1,17 +1,8 @@
 <template>
   <div>
-    <v-alert border="left" color="deep-purple accent-4" dark>
-      Podstrona pozwala na obsługę uczniów. Możesz edytować informacje o
-      uczniach, dopisywać do klas.
-    </v-alert>
-    <div class="my-2">
-      <v-btn color="info" to="/principal/users/new" dark large>
-        Dodaj nowego ucznia
-      </v-btn>
-    </div>
     <v-data-table
       :headers="headers"
-      :items="students"
+      :items="classes"
       sort-by="calories"
       class="elevation-1"
     >
@@ -28,7 +19,14 @@ import { mapActions } from 'vuex'
 export default {
   name: 'userList',
   data: () => ({
-    students: [{ id: 1, name: 'Andrzej', surname: 'Srandrzej', class: '5 a' }],
+    classes: [
+      {
+        id: 1,
+        name: '5 a',
+        students: 39,
+        educator: { name: 'antonina', surname: 'elo' },
+      },
+    ],
     headers: [
       {
         text: 'ID',
@@ -36,9 +34,9 @@ export default {
         sortable: false,
         value: 'id',
       },
-      { text: 'Imie', value: 'name' },
-      { text: 'Nazwisko', value: 'surname' },
-      { text: 'Klasa', value: 'class' },
+      { text: 'Klas', value: 'name' },
+      { text: 'Ilość uczniów', value: 'students' },
+      { text: 'Wychowawca', value: 'educator.name' },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
   }),
@@ -49,21 +47,21 @@ export default {
 
   methods: {
     initialData() {
-      this.getStudents().then((a) => {
-        this.students = [...a, ...this.students]
+      this.getClasses().then((a) => {
+        this.classes = [...a, ...this.classes]
       })
     },
     ...mapActions({
-      getStudents: 'students/getStudents',
-      deleteStudent: 'students/deleteStudent',
+      getClasses: 'classes/getClasses',
+      deleteClass: 'classes/deleteClass',
     }),
 
     editItem(item) {
-      this.$router.push(`/principal/users/${item.id}`)
+      this.$router.push(`/principal/classes/${item.id}`)
     },
 
     deleteItem(item) {
-      this.deleteStudent(item.id).then((res) => {
+      this.deleteClass(item.id).then((res) => {
         this.initialData()
       })
     },

@@ -1,17 +1,8 @@
 <template>
   <div>
-    <v-alert border="left" color="deep-purple accent-4" dark>
-      Podstrona pozwala na obsługę uczniów. Możesz edytować informacje o
-      uczniach, dopisywać do klas.
-    </v-alert>
-    <div class="my-2">
-      <v-btn color="info" to="/principal/users/new" dark large>
-        Dodaj nowego ucznia
-      </v-btn>
-    </div>
     <v-data-table
       :headers="headers"
-      :items="students"
+      :items="subjects"
       sort-by="calories"
       class="elevation-1"
     >
@@ -26,9 +17,15 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'userList',
+  name: 'subjectsList',
   data: () => ({
-    students: [{ id: 1, name: 'Andrzej', surname: 'Srandrzej', class: '5 a' }],
+    subjects: [
+      {
+        id: 1,
+        name: 'Polski',
+        teachers: 39,
+      },
+    ],
     headers: [
       {
         text: 'ID',
@@ -36,9 +33,8 @@ export default {
         sortable: false,
         value: 'id',
       },
-      { text: 'Imie', value: 'name' },
-      { text: 'Nazwisko', value: 'surname' },
-      { text: 'Klasa', value: 'class' },
+      { text: 'Nazwa przemdiotu', value: 'name' },
+      { text: 'Ilość nauczycieli', value: 'teachers' },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
   }),
@@ -49,21 +45,21 @@ export default {
 
   methods: {
     initialData() {
-      this.getStudents().then((a) => {
-        this.students = [...a, ...this.students]
+      this.getSubjects().then((a) => {
+        this.subjects = [...a, ...this.subjects]
       })
     },
     ...mapActions({
-      getStudents: 'students/getStudents',
-      deleteStudent: 'students/deleteStudent',
+      getSubjects: 'subjects/getSubjects',
+      deleteSubject: 'subjects/deleteSubject',
     }),
 
     editItem(item) {
-      this.$router.push(`/principal/users/${item.id}`)
+      this.$router.push(`/principal/subjects/${item.id}`)
     },
 
     deleteItem(item) {
-      this.deleteStudent(item.id).then((res) => {
+      this.deleteSubject(item.id).then((res) => {
         this.initialData()
       })
     },
