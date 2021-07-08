@@ -123,7 +123,7 @@
   </section>
 </template>
 <script>
-import HeaderPage from '../../components/pages/HeaderPage.vue'
+import HeaderPage from '../../../components/pages/HeaderPage.vue'
 export default {
   components: {
     HeaderPage,

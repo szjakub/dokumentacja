@@ -53,4 +53,4 @@ services:
     restart: always
     ports:
       - '3000:3000'
-    command: npm run dev
+    command: npm run dev 

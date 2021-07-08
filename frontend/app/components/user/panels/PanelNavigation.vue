@@ -44,20 +44,58 @@ export default {
   name: 'PanelNavigation',
   data: () => ({
     selectedItem: 0,
-    items: [
-      { text: 'Mój Plan lekcji', icon: 'mdi-folder', link: '/plan-zajec' },
-      {
-        text: 'Panel obecności',
-        icon: 'mdi-account-multiple',
-        link: '/panel-obecnosci',
-      },
-      { text: 'Moje Oceny', icon: 'mdi-star', link: '/grades' },
-      { text: 'Moje przedmioty', icon: 'mdi-history', link: '/subjects' },
-      { text: 'Zadania domowe', icon: 'mdi-check-circle', link: '/homework' },
-      { text: 'Sprawdziany i kartkówki', icon: 'mdi-upload', link: '/tests' },
-      { text: 'Ogłoszenia', icon: 'mdi-cloud-upload', link: '/news' },
-      { text: 'Moi nauczyciele', icon: 'mdi-cloud-upload', link: '' },
-    ],
+    items: [],
   }),
+  created() {
+    switch (this.$store.state.user.type) {
+      case 'principal':
+        this.items = [
+          { text: 'Główna', icon: 'mdi-users', link: '/principal' },
+          { text: 'Studenci', icon: 'mdi-users', link: '/principal/users' },
+          {
+            text: 'Nauczyciele',
+            icon: 'mdi-users',
+            link: '/principal/teachers',
+          },
+          { text: 'Klasy', icon: 'mdi-users', link: '/principal/classes' },
+          {
+            text: 'Przedmioty',
+            icon: 'mdi-users',
+            link: '/principal/subjects',
+          },
+        ]
+        break
+      case 'teacher':
+        this.items = [
+          { text: 'Studenci', icon: 'mdi-users', link: '/principal' },
+        ]
+        break
+      case 'student':
+        this.items = [
+          { text: 'Mój Plan lekcji', icon: 'mdi-folder', link: '/plan-zajec' },
+          {
+            text: 'Panel obecności',
+            icon: 'mdi-account-multiple',
+            link: '/panel-obecnosci',
+          },
+          { text: 'Moje Oceny', icon: 'mdi-star', link: '/grades' },
+          { text: 'Moje przedmioty', icon: 'mdi-history', link: '/subjects' },
+          {
+            text: 'Zadania domowe',
+            icon: 'mdi-check-circle',
+            link: '/homework',
+          },
+          {
+            text: 'Sprawdziany i kartkówki',
+            icon: 'mdi-upload',
+            link: '/tests',
+          },
+          { text: 'Ogłoszenia', icon: 'mdi-cloud-upload', link: '/news' },
+          { text: 'Moi nauczyciele', icon: 'mdi-cloud-upload', link: '' },
+        ]
+        // redirect('/student')
+        break
+    }
+  },
 }
 </script>

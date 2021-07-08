@@ -1,6 +1,7 @@
-export const actions = () => ({
-  async getIP({ commit }) {
-    await this.$axios.$get('http://icanhazip.com')
-    commit('SET_IP', 'haloo')
-  },
-})
+export const schoolRegister = async function ({ commit }, params) {
+  return await this.$axios.$post('/schools/', params)
+}
+export const login = async function ({ commit }, params) {
+  const login = await this.$axios.$post('/api-token-auth/', params)
+  return login
+}

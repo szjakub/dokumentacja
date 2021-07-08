@@ -1,7 +1,9 @@
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.utils import timezone
+
+from school.models import Principal, Teacher, Student
 from .managers import CustomUserManager
 
 
@@ -34,3 +36,8 @@ class CyprusUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.get_username()
+
+    def get_role_class(self):
+        return {self.PRINCIPAL: Principal,
+                self.TEACHER: Teacher,
+                self.STUDENT: Student}.get(str(self.role))

@@ -1,28 +1,59 @@
 <template>
-  <v-form ref="form" @submit.prevent="handleLogin">
-    <v-text-field
-      id="loginUsername"
-      v-model="login.username"
-      :rules="inputRules"
-      label="Nazwa użytkownika"
-      required
-    ></v-text-field>
+  <div
+    class="login form d-flex align-center justify-center flex-column"
+    id="login"
+  >
+    <h1>Logowanie</h1>
+    {{ errors }}
+    <v-col class="12 flex-grow-0">
+      <v-form
+        ref="form"
+        class="d-flex flex-column"
+        @submit.prevent="handleLogin"
+      >
+        <v-col cols="12">
+          <v-text-field
+            filled
+            id="loginUsername"
+            v-model="login.username"
+            :rules="inputRules"
+            label="Nazwa użytkownika"
+            required
+          ></v-text-field>
+        </v-col>
 
-    <v-text-field
-      id="loginPassword"
-      v-model="login.password"
-      :rules="inputRules"
-      label="Hasło"
-      required
-    ></v-text-field>
-
-    <v-btn type="submit" color="success" class="mr-4" @click="submit">
-      Zaloguj
-    </v-btn>
-  </v-form>
+        <v-col cols="12">
+          <v-text-field
+            filled
+            id="loginPassword"
+            v-model="login.password"
+            :rules="inputRules"
+            label="Hasło"
+            required
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" class="d-flex justify-center">
+          <v-btn type="submit" color="success" class="mr-4" large>
+            Zaloguj się
+          </v-btn>
+          <v-btn
+            :to="'/registration'"
+            type="submit"
+            color="info"
+            class="mr-4"
+            large
+          >
+            Zarejestruj się
+          </v-btn>
+        </v-col>
+      </v-form>
+    </v-col>
+  </div>
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex'
+
 export default {
   layout: 'login',
   data() {
@@ -31,22 +62,44 @@ export default {
         username: '',
         password: '',
       },
+      errors: {},
       inputRules: [(v) => v.length > 0 || 'Pole nie może byc puste'],
     }
   },
   methods: {
-    submit() {
+    handleLogin(e) {
       if (this.$refs.form.validate()) {
-        this.handleLogin()
+        this.loginAction(this.login)
+          .then((e) => {
+            this.$axios.setToken(e.token, 'Token')
+            this.setToken(e.token)
+            // to change
+            this.setType('principal')
+            this.$router.push('principal')
+            window.sessionStorage.setItem('token', e.token)
+            window.sessionStorage.setItem('type', 'principal')
+          })
+          .catch((e) => {
+            if (e.response) {
+              this.errors = e.response.data
+            } else {
+              console.error(e.message)
+            }
+          })
       }
     },
-    handleLogin(e) {
-      const Login = this.login.username
-      const Password = this.login.password
-      if (Login && Password) {
-        console.log(Login, Password)
-      } else console.log('puste')
-    },
+    ...mapMutations({
+      setToken: 'user/SET_TOKEN',
+      setType: 'user/SET_TYPE_USER',
+    }),
+    ...mapActions({
+      loginAction: 'user/login',
+    }),
   },
 }
 </script>
+<style scoped>
+#login {
+  height: 100%;
+}
+</style>

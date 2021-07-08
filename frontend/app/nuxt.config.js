@@ -61,12 +61,12 @@ export default {
       routes.push(
         {
           path: '/plan-zajec',
-          component: './pages/lesson-plan/index.vue',
+          component: './pages/student/lesson-plan/index.vue',
           name: 'plan-zajec',
         },
         {
           path: '/panel-obecnosci',
-          component: './pages/presence/index.vue',
+          component: './pages/student/presence/index.vue',
           name: 'panel-obecnosci',
         }
       )
@@ -77,6 +77,7 @@ export default {
   axios: {
     // proxy: true
     baseURL: 'http://localhost:8000/api/',
+    crossDomain: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
