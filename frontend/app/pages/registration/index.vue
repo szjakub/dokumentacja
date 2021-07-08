@@ -4,7 +4,11 @@
     id="registration"
   >
     <h1>Rejestracja szkoły</h1>
-    {{ errors }}
+    <div class="errors" v-if="Object.keys(errors).length > 0">
+      <v-alert type="error" v-for="(error, index) in errors" :key="index">
+        {{ error[Object.keys(error)[0]][0] }}
+      </v-alert>
+    </div>
     <v-col class="12 flex-grow-0">
       <v-form
         ref="form"

@@ -4,7 +4,11 @@
     id="login"
   >
     <h1>Logowanie</h1>
-    {{ errors }}
+    <div class="errors" v-if="Object.keys(errors).length > 0">
+      <v-alert type="error" v-for="(error, index) in errors" :key="index">
+        {{ error[0] }}
+      </v-alert>
+    </div>
     <v-col class="12 flex-grow-0">
       <v-form
         ref="form"
@@ -31,6 +35,18 @@
             label="Hasło"
             required
           ></v-text-field>
+        </v-col>
+        <v-col cols="12">
+          <v-select
+            v-model="type"
+            :items="typeOfUser"
+            label="Typ użytkownika"
+            filled
+            persistent-hint
+            item-text="name"
+            required
+            item-value="value"
+          ></v-select>
         </v-col>
         <v-col cols="12" class="d-flex justify-center">
           <v-btn type="submit" color="success" class="mr-4" large>
@@ -62,6 +78,12 @@ export default {
         username: '',
         password: '',
       },
+      type: null,
+      typeOfUser: [
+        { name: 'Moderator', value: 'principal' },
+        { name: 'Nauczyciel', value: 'teacher' },
+        { name: 'Uczeń', value: 'student' },
+      ],
       errors: {},
       inputRules: [(v) => v.length > 0 || 'Pole nie może byc puste'],
     }
@@ -73,11 +95,10 @@ export default {
           .then((e) => {
             this.$axios.setToken(e.token, 'Token')
             this.setToken(e.token)
-            // to change
-            this.setType('principal')
-            this.$router.push('principal')
+            this.setType(this.type)
+            this.$router.push(this.type)
             window.sessionStorage.setItem('token', e.token)
-            window.sessionStorage.setItem('type', 'principal')
+            window.sessionStorage.setItem('type', this.type)
           })
           .catch((e) => {
             if (e.response) {
