@@ -61,12 +61,12 @@ export default {
       routes.push(
         {
           path: '/plan-zajec',
-          component: './pages/lesson-plan/index.vue',
+          component: './pages/student/lesson-plan/index.vue',
           name: 'plan-zajec',
         },
         {
           path: '/panel-obecnosci',
-          component: './pages/presence/index.vue',
+          component: './pages/student/presence/index.vue',
           name: 'panel-obecnosci',
         }
       )

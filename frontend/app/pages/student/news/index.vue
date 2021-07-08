@@ -71,5 +71,8 @@ export default {
       this.showMoreEvent = event
     },
   },
+  mounted() {
+    console.log(this.$router.getRoutes())
+  },
 }
 </script>

@@ -9,7 +9,7 @@
   </section>
 </template>
 <script>
-import Callendar from '../../components/calendar/index.vue'
+import Callendar from '../../../components/calendar/index.vue'
 
 export default {
   components: {

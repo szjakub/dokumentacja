@@ -35,7 +35,7 @@
 import PanelNavigation from '~/components/user/panels/PanelNavigation.vue'
 
 export default {
-  middleware: 'authenticated',
+  middleware: ['authenticated', 'redirect-user'],
   components: {
     'panel-navigation': PanelNavigation,
   },
@@ -52,6 +52,9 @@ export default {
         this.columnRouter = !this.columnRouter
       }, 380)
     },
+  },
+  mounted() {
+    console.log(this.$store)
   },
 }
 </script>

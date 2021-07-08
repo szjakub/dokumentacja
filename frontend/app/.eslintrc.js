@@ -15,13 +15,13 @@ module.exports = {
   plugins: [],
   // add your custom rules here
   rules: {
-    "no-console": "off",
-    "prettier/prettier": [
-      "error",
+    'no-console': 'off',
+    'prettier/prettier': [
+      'error',
       {
-        "endOfLine": "auto"
+        endOfLine: 'auto',
       },
     ],
-    
+    'vue/valid-v-slot': ['error', { allowModifiers: true }],
   },
 }
