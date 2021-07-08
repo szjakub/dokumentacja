@@ -10,6 +10,8 @@ router = routers.DefaultRouter()
 router.register(r'schools', views.SchoolViewSet, basename='school')
 router.register(r'classes', views.ClassViewSet, basename='class')
 router.register(r'students', views.StudentViewSet, basename='student')
+router.register(r'subjects', views.SubjectViewSet, basename='subject')
+router.register(r'lessons', views.LessonViewSet, basename='lesson')
 
 urlpatterns = [
     path('', include(router.urls)),

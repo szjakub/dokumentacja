@@ -1,0 +1,13 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+  <h1>Witamy w aplikacji Cyprus.</h1>
+  <p>Administrator szkoły {{ school_name }} pod adresem {{ school_address }} wygenerował dla Ciebie nowe konto w aplikacji Cyprus.<p>
+  <p>login: <b>{{ username }}</b></p>
+  <p>hasło: <b>{{ password }}</b></p>
+
+  <a class="button" href="http://localhost:3000" target="_blank" rel="nofollow noopener">Wejdź do aplikacji</a>
+  </br>
+  </br>
+  <p> Team Cyprus</p>
+{% endblock %}

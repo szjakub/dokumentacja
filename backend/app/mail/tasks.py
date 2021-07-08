@@ -36,3 +36,18 @@ def school_created_email(to, **context):
     )
     mail.content_subtype = "html"
     return mail.send()
+
+
+@task(name="student_created_email")
+def student_created_email(to, **context):
+    message = render_template('mail/student_created_email.html', context)
+
+    logger.info(f"Sending email to {to}")
+    mail = EmailMessage(
+        subject='Rejestracja studenta',
+        body=message,
+        from_email=EMAIL_ADMIN,
+        to=[to]
+    )
+    mail.content_subtype = "html"
+    return mail.send()
