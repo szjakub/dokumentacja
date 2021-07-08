@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.response import Response
 from rest_framework.decorators import permission_classes
 from rest_framework.authentication import TokenAuthentication
@@ -12,9 +12,9 @@ from api.permissions import (
 )
 from api.serializers import (
     SchoolRequestSerializer,  ClassSerializer, StudentSerializer,
-    StudentReadOnlySerializer
+    StudentReadOnlySerializer, SubjectSerializer, LessonSerializer
 )
-from school.models import SchoolClass, School, Student, Principal
+from school.models import SchoolClass, School, Student, Principal, Subject, Lesson
 
 
 class SchoolViewSet(viewsets.ViewSet):
@@ -65,16 +65,6 @@ class ClassViewSet(viewsets.ViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
 
-class StudentReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
-    permission_classes = [IsAuthenticated, TeacherAccessPermission | PrincipalAccessPermission]
-
-    def get_queryset(self):
-        role_class = self.request.user.get_role_class()
-        return Student.objects.filter(school=role_class.school)
-
-
 class StudentViewSet(viewsets.ViewSet):
     authentication_classes = (TokenAuthentication,)
 
@@ -84,11 +74,22 @@ class StudentViewSet(viewsets.ViewSet):
         return Student.objects.filter(school=school)
 
     @extend_schema(
+        request=StudentReadOnlySerializer,
+        responses={200: StudentReadOnlySerializer}, )
+    @permission_classes([IsAuthenticated, PrincipalAccessPermission | TeacherAccessPermission])
+    def list(self, request):
+        queryset = self.get_queryset(request)
+        serializer = StudentReadOnlySerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @extend_schema(
         request=StudentSerializer,
         responses={200: StudentSerializer}, )
     @permission_classes([IsAuthenticated, PrincipalAccessPermission])
+
     def create(self, request):
-        serializer = StudentSerializer(data=request.data)
+        serializer = StudentSerializer(
+            data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -101,3 +102,13 @@ class StudentViewSet(viewsets.ViewSet):
     def retrieve(self, request, pk):
         queryset = self.get_queryset(request).filter(pk=pk).first()
         return StudentSerializer(queryset)
+
+
+class SubjectViewSet(viewsets.ModelViewSet):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
+
+
+class LessonViewSet(viewsets.ModelViewSet):
+    queryset = Subject.objects.all()
+    serializer_class = LessonSerializer
