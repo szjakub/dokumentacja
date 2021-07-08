@@ -72,25 +72,37 @@ export default {
         break
       case 'student':
         this.items = [
-          { text: 'Mój Plan lekcji', icon: 'mdi-folder', link: '/plan-zajec' },
+          {
+            text: 'Mój Plan lekcji',
+            icon: 'mdi-folder',
+            link: '/student/lesson-plan',
+          },
           {
             text: 'Panel obecności',
             icon: 'mdi-account-multiple',
-            link: '/panel-obecnosci',
+            link: '/student/presence',
           },
-          { text: 'Moje Oceny', icon: 'mdi-star', link: '/grades' },
-          { text: 'Moje przedmioty', icon: 'mdi-history', link: '/subjects' },
+          { text: 'Moje Oceny', icon: 'mdi-star', link: '/student/grades' },
+          {
+            text: 'Moje przedmioty',
+            icon: 'mdi-history',
+            link: '/student/subjects',
+          },
           {
             text: 'Zadania domowe',
             icon: 'mdi-check-circle',
-            link: '/homework',
+            link: '/student/homework',
           },
           {
             text: 'Sprawdziany i kartkówki',
             icon: 'mdi-upload',
-            link: '/tests',
+            link: '/student/tests',
           },
-          { text: 'Ogłoszenia', icon: 'mdi-cloud-upload', link: '/news' },
+          {
+            text: 'Ogłoszenia',
+            icon: 'mdi-cloud-upload',
+            link: '/student/news',
+          },
           { text: 'Moi nauczyciele', icon: 'mdi-cloud-upload', link: '' },
         ]
         // redirect('/student')

@@ -40,7 +40,33 @@
       </v-timeline>
     </v-col>
     <v-col md="4">
-      {{ showMoreEvent }}
+      <v-card
+        class="mx-auto"
+        max-width="344"
+        outlined
+        v-if="showMoreEvent != null"
+      >
+        <v-list-item three-line>
+          <v-list-item-content>
+            <div class="text-overline mb-4">WIECEJ INFORMACJI</div>
+            <v-list-item-title class="text-h5 mb-1">
+              {{ showMoreEvent.text }}
+            </v-list-item-title>
+
+            <v-list-item-subtitle>{{
+              showMoreEvent.shortDescription
+            }}</v-list-item-subtitle>
+            <v-chip-group
+              active-class="deep-purple accent-4 white--text"
+              column
+            >
+              <v-chip color="primary">
+                {{ showMoreEvent.time }}
+              </v-chip>
+            </v-chip-group>
+          </v-list-item-content>
+        </v-list-item>
+      </v-card>
     </v-col>
   </v-row>
 </template>

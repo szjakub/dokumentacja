@@ -97,8 +97,6 @@ export default {
             this.setToken(e.token)
             this.setType(this.type)
             this.$router.push(this.type)
-            window.sessionStorage.setItem('token', e.token)
-            window.sessionStorage.setItem('type', this.type)
           })
           .catch((e) => {
             if (e.response) {
