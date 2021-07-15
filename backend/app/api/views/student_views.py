@@ -1,4 +1,3 @@
-from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -8,22 +7,16 @@ from api.permissions import PrincipalAccessPermission, TeacherAccessPermission
 from school.models import Student
 from api.serializers.student_serializers import StudentSerializer, StudentReadOnlySerializer
 from rest_condition import Or, And
+from api.utils import CyprusViewSet
 
 
-class StudentViewSet(viewsets.ViewSet):
+class StudentViewSet(CyprusViewSet):
     authentication_classes = (TokenAuthentication,)
-
     permission_classes_by_action = {
         'list': [And(IsAuthenticated, Or(PrincipalAccessPermission, TeacherAccessPermission))],
         'retrieve': [And(IsAuthenticated, Or(PrincipalAccessPermission, TeacherAccessPermission))],
         'create': [And(IsAuthenticated, PrincipalAccessPermission)],
     }
-
-    def get_permissions(self):
-        try:
-            return [permission() for permission in self.permission_classes_by_action[self.action]]
-        except KeyError:
-            return [permission() for permission in self.permission_classes]
 
     def get_queryset(self, request):
         role_class = request.user.get_role_class()
