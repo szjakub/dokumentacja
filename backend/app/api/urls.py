@@ -1,21 +1,22 @@
 from django.urls import path, include
 from rest_framework import routers
-from rest_framework.authtoken.views import obtain_auth_token
 from drf_spectacular.views import (
     SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 )
-from api import views
+from api.views import (
+    auth_views, school_views, school_class_views, student_views
+)
+
 
 router = routers.DefaultRouter()
-router.register(r'schools', views.SchoolViewSet, basename='school')
-router.register(r'classes', views.ClassViewSet, basename='class')
-router.register(r'students', views.StudentViewSet, basename='student')
-router.register(r'subjects', views.SubjectViewSet, basename='subject')
-router.register(r'lessons', views.LessonViewSet, basename='lesson')
+router.register(r'schools', school_views.SchoolViewSet, basename='school')
+router.register(r'classes', school_class_views.SchoolClassViewSet, basename='class')
+router.register(r'students', student_views.StudentViewSet, basename='student')
+
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('api-token-auth/', obtain_auth_token),
+    path('api-token-auth/', auth_views.ObtainCyprusAuthTokenView.as_view(), name='auth-token'),
 
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
