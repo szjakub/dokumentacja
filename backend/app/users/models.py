@@ -38,6 +38,8 @@ class CyprusUser(AbstractBaseUser, PermissionsMixin):
         return self.get_username()
 
     def get_role_class(self):
-        return {self.PRINCIPAL: Principal,
-                self.TEACHER: Teacher,
-                self.STUDENT: Student}.get(str(self.role))
+        return {
+            self.PRINCIPAL: Principal,
+            self.TEACHER: Teacher,
+            self.STUDENT: Student
+        }.get(str(self.role))

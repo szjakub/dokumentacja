@@ -68,6 +68,27 @@ export default {
       case 'teacher':
         this.items = [
           { text: 'Studenci', icon: 'mdi-users', link: '/principal' },
+          { text: 'Plan lekcji', icon: 'mdi-folder', link: '/lesson-plan' },
+          {
+            text: 'Dodaj ogłoszenie',
+            icon: 'mdi-cloud-upload',
+            link: '/advertisement',
+          },
+          {
+            text: 'Pliki do pobrania',
+            icon: 'mdi-arrow-down-bold-circle',
+            link: '/download',
+          },
+          {
+            text: 'Terminarz',
+            icon: 'mdi-checkerboard',
+            link: '/timetable',
+          },
+          {
+            text: 'Moje klasy',
+            icon: 'mdi-format-list-bulleted',
+            link: '/my-classes',
+          },
         ]
         break
       case 'student':
