@@ -47,7 +47,7 @@ class Student(models.Model):
 class Teacher(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
     school = models.ForeignKey(School, related_name='school_teachers', on_delete=models.CASCADE)
-
+    
     objects = models.Manager()
 
 
