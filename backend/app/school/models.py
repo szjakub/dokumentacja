@@ -40,6 +40,9 @@ class Student(models.Model):
 
     objects = models.Manager()
 
+    def __str__(self):
+        return f'{str(self.school_class)} {str(self.user)}'
+
 
 class Teacher(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)

@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from school.models import School, SchoolClass, Principal
 from api.validators import school_class_label_validator
+from api.serializers.read_only_serializers import StudentReadOnlySerializer
 
 
 class SchoolClassSerializer(serializers.ModelSerializer):
-    class_students = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    class_students = StudentReadOnlySerializer(many=True, read_only=True)
 
     class Meta:
         model = SchoolClass
@@ -40,9 +41,3 @@ class SchoolClassSerializer(serializers.ModelSerializer):
         new_class.save()
         return new_class
 
-
-class SchoolClassReadOnlySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = SchoolClass
-        fields = ['pk', 'yearbook', 'class_label']

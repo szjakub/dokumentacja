@@ -5,7 +5,8 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from drf_spectacular.utils import extend_schema
 from api.permissions import PrincipalAccessPermission, TeacherAccessPermission
 from school.models import Student
-from api.serializers.student_serializers import StudentSerializer, StudentReadOnlySerializer
+from api.serializers.student_serializers import StudentSerializer
+from api.serializers.read_only_serializers import StudentReadOnlySerializer
 from rest_condition import Or, And
 from api.utils import CyprusViewSet
 
@@ -37,14 +38,17 @@ class StudentViewSet(CyprusViewSet):
     def create(self, request):
         serializer = StudentSerializer(
             data=request.data, context={'request': request})
+
         if serializer.is_valid():
             serializer.save()
+
             return Response(serializer.data)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
     @extend_schema(
-        request=StudentSerializer,
-        responses={200: StudentSerializer}, )
+        request=StudentReadOnlySerializer,
+        responses={200: StudentReadOnlySerializer}, )
     def retrieve(self, request, pk):
         queryset = self.get_queryset(request).filter(pk=pk).first()
-        return StudentSerializer(queryset)
+        serializer = StudentReadOnlySerializer(queryset)
+        return Response(serializer.data)
