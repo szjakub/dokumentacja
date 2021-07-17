@@ -23,6 +23,6 @@ class Command(BaseCommand):
                 self.stdout.write(f"Created superuser {admin_username} with "
                                   f"password {settings.ADMIN_DEFAULT_PASSWORD}.")
                 continue
-            self.stdout.write(f"Superuser {admin_username} already exists")
+            self.stdout.write(f"Superuser {admin_username} already exist")
         self.stdout.write(f"Created {created} superusers.")
 
