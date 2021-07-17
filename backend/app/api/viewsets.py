@@ -10,11 +10,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from drf_spectacular.utils import extend_schema, OpenApiExample
-from rest_condition import Or, And
 
-from school.models import SchoolClass, School, Principal, Student
+from school.models import SchoolClass, School, Principal, Student, Subject
 
-from api.permissions import PrincipalAccessPermission, TeacherAccessPermission
+from api.permissions import PrincipalAccessPermission, PTAccessPermission, PTSAccessPermission
 from api.serializers import (
     SchoolClassSerializer, SchoolRequestSerializer, StudentSerializer,
     StudentReadOnlySerializer
@@ -65,10 +64,10 @@ class SchoolClassViewSet(CyprusViewSet):
     queryset = SchoolClass.objects.none()
     permission_classes = (IsAuthenticated, PrincipalAccessPermission)
     permission_classes_by_action = {
-        'list': [And(IsAuthenticated, Or(PrincipalAccessPermission, TeacherAccessPermission))],
-        'retrieve': [And(IsAuthenticated, Or(PrincipalAccessPermission, TeacherAccessPermission))],
-        'create': [And(IsAuthenticated, PrincipalAccessPermission)],
-        'destroy': [And(IsAuthenticated, PrincipalAccessPermission)],
+        'list': [PTAccessPermission],
+        'retrieve': [PTAccessPermission],
+        'create': [PrincipalAccessPermission],
+        'destroy': [PrincipalAccessPermission],
     }
 
     def get_queryset(self):
@@ -105,11 +104,11 @@ class SchoolClassViewSet(CyprusViewSet):
 class StudentViewSet(CyprusViewSet):
     queryset = Student.objects.none()
     permission_classes_by_action = {
-        'list': [And(IsAuthenticated, Or(PrincipalAccessPermission, TeacherAccessPermission))],
-        'retrieve': [And(IsAuthenticated, Or(PrincipalAccessPermission, TeacherAccessPermission))],
-        'create': [And(IsAuthenticated, PrincipalAccessPermission)],
-        'update': [And(IsAuthenticated, PrincipalAccessPermission)],
-        'destroy': [And(IsAuthenticated, PrincipalAccessPermission)],
+        'list': [PTAccessPermission],
+        'retrieve': [PTAccessPermission],
+        'create': [PrincipalAccessPermission],
+        'update': [PrincipalAccessPermission],
+        'destroy': [PrincipalAccessPermission],
     }
 
     def get_queryset(self):
@@ -142,7 +141,7 @@ class StudentViewSet(CyprusViewSet):
         return Response(serializer.data)
 
     @extend_schema(
-        request=StudentReadOnlySerializer,
+        request=StudentSerializer,
         responses={200: StudentReadOnlySerializer}, )
     def update(self, request, pk):
         queryset = self.get_queryset().filter(pk=pk).first()
@@ -153,3 +152,17 @@ class StudentViewSet(CyprusViewSet):
         queryset = self.get_queryset()
         queryset.filter(pk=pk).delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
+
+class SubjectViewSet(CyprusViewSet):
+    queryset = Subject.objects.none()
+    permission_classes_by_action = {
+        'list': [PTAccessPermission],
+        'retrieve': [PTAccessPermission],
+        'create': [PrincipalAccessPermission],
+    }
+
+    def get_queryset(self):
+        role_class = self.request.user.get_role_class()
+        role_instance = role_class.objects.get(user=self.request.user)
+        return Subject.objects.filter(school=role_instance.school)

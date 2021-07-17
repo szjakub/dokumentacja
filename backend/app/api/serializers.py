@@ -1,11 +1,9 @@
-from api.validators import school_class_label_validator
-from mail.tasks import school_request_email
-from school.models import School, SchoolClass, Student, Principal
-from users.utils import username_generator, password_generator
-from mail.tasks import student_created_email
-from rest_framework import serializers
 from django.contrib.auth import get_user_model
-
+from rest_framework import serializers
+from api.validators import school_class_label_validator
+from users.utils import username_generator, password_generator
+from mail.tasks import student_created_email, school_request_email
+from school.models import School, SchoolClass, Student, Principal, Subject
 
 User = get_user_model()
 
@@ -172,3 +170,11 @@ class StudentSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         raise serializers.ValidationError('Not implemented')
+
+
+class SubjectSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Subject
+        fields = ['subject_name']
+
