@@ -187,5 +187,7 @@ class SubjectViewSet(CyprusViewSet):
 
     def destroy(self, request, pk):
         queryset = self.get_queryset()
-        queryset.filter(pk=pk).delete()
+        deleted, _ = queryset.filter(pk=pk).delete()
+        if not deleted:
+            return Response(['subject does not exist'], status=HTTP_400_BAD_REQUEST)
         return Response(status=HTTP_204_NO_CONTENT)
