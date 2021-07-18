@@ -59,7 +59,7 @@ class SchoolClassSerializer(serializers.ModelSerializer):
         except SchoolClass.DoesNotExist:
             return data
         raise serializers.ValidationError(
-            'school_class with such yearbook and class_label already exists')
+            'school_class with such yearbook and class_label already exist')
 
     def create(self, validated_data):
         request = self.context.get('request')
@@ -134,7 +134,7 @@ class StudentSerializer(serializers.Serializer):
         school_class_exist = SchoolClass.objects.filter(**school_class_data).exists()
         if not school_class_exist:
             raise serializers.ValidationError(
-                'school_class with such yearbook and class_label does not exists')
+                'school_class with such yearbook and class_label does not exist')
         return attrs
 
     def create(self, validated_data):
@@ -162,9 +162,10 @@ class StudentSerializer(serializers.Serializer):
 
         # send email with credentials
         student_created_email.delay(
-            to=user.email,
+            to=user.email, username=username, password=password,
             first_name=user.first_name, last_name=user.last_name,
-            school_name=school.school_name, school_address=school.school_address)
+            school_name=school.school_name, school_address=school.school_address
+        )
 
         return return_data
 
@@ -176,5 +177,14 @@ class SubjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subject
-        fields = ['subject_name']
+        fields = ['pk', 'subject_name']
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        principal = Principal.objects.get(user=request.user)
+        school = School.objects.get(school_principal=principal)
+        subject, created = Subject.objects.get_or_create(school=school, **validated_data)
+        if not created:
+            raise serializers.ValidationError('Subject with such name already exist')
+        return subject
 
