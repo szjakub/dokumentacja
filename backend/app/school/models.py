@@ -25,7 +25,7 @@ class SchoolClass(models.Model):
     objects = models.Manager()
 
     def __str__(self):
-        return f'{self.yearbook}{self.class_label} {self.school.school_name}'
+        return f'{self.yearbook}{self.class_label}'
 
     class Meta:
         verbose_name_plural = 'class'
