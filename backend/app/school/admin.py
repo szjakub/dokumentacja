@@ -1,6 +1,6 @@
 from django.contrib import admin
 from school.models import (
-    School, SchoolClass, Student
+    School, SchoolClass, Student, Subject
 )
 from .forms import SchoolForm
 
@@ -17,6 +17,11 @@ class ClassAdmin(admin.ModelAdmin):
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     fields = ('school', 'school_class')
+
+
+@admin.register(Subject)
+class SubjectAdmin(admin.ModelAdmin):
+    fields = ('subject_name', )
 
 
 admin.site.register(School, SchoolAdmin)

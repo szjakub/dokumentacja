@@ -64,6 +64,9 @@ class Subject(models.Model):
 
     objects = models.Manager()
 
+    class Meta:
+        unique_together = ['school', 'subject_name']
+
 
 class Lesson(models.Model):
     school = models.ForeignKey(School, related_name='school_lessons', on_delete=models.CASCADE)
