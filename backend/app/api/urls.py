@@ -4,7 +4,8 @@ from drf_spectacular.views import (
     SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 )
 from api.viewsets import (
-    SchoolViewSet, SchoolClassViewSet, StudentViewSet, ObtainCyprusAuthTokenView
+    SchoolViewSet, SchoolClassViewSet, StudentViewSet, ObtainCyprusAuthTokenView,
+    SubjectViewSet
 )
 
 
@@ -12,6 +13,7 @@ router = routers.DefaultRouter()
 router.register(r'schools', SchoolViewSet, basename='school')
 router.register(r'classes', SchoolClassViewSet, basename='class')
 router.register(r'students', StudentViewSet, basename='student')
+router.register(r'subjects', SubjectViewSet, basename='subject')
 
 
 urlpatterns = [

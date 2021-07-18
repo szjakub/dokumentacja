@@ -25,7 +25,7 @@ class SchoolClass(models.Model):
     objects = models.Manager()
 
     def __str__(self):
-        return f'{self.yearbook}{self.class_label} {self.school.school_name}'
+        return f'{self.yearbook}{self.class_label}'
 
     class Meta:
         verbose_name_plural = 'class'
@@ -63,6 +63,12 @@ class Subject(models.Model):
     subject_name = models.CharField(max_length=50)
 
     objects = models.Manager()
+
+    class Meta:
+        unique_together = ['school', 'subject_name']
+
+    def __str__(self):
+        return f'{self.subject_name} at {str(self.school)}'
 
 
 class Lesson(models.Model):

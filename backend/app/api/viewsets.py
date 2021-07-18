@@ -16,7 +16,7 @@ from school.models import SchoolClass, School, Principal, Student, Subject
 from api.permissions import PrincipalAccessPermission, PTAccessPermission, PTSAccessPermission
 from api.serializers import (
     SchoolClassSerializer, SchoolRequestSerializer, StudentSerializer,
-    StudentReadOnlySerializer
+    StudentReadOnlySerializer, SubjectSerializer
 )
 
 
@@ -158,11 +158,36 @@ class SubjectViewSet(CyprusViewSet):
     queryset = Subject.objects.none()
     permission_classes_by_action = {
         'list': [PTAccessPermission],
-        'retrieve': [PTAccessPermission],
         'create': [PrincipalAccessPermission],
+        'destroy': [PrincipalAccessPermission],
     }
 
     def get_queryset(self):
         role_class = self.request.user.get_role_class()
         role_instance = role_class.objects.get(user=self.request.user)
         return Subject.objects.filter(school=role_instance.school)
+
+    @extend_schema(
+        request=SubjectSerializer,
+        responses={200: SubjectSerializer}, )
+    def list(self, request):
+        serializer = SubjectSerializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+    @extend_schema(
+        request=SubjectSerializer,
+        responses={201: SubjectSerializer}, )
+    def create(self, request):
+        serializer = SubjectSerializer(
+            data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk):
+        queryset = self.get_queryset()
+        deleted, _ = queryset.filter(pk=pk).delete()
+        if not deleted:
+            return Response(['subject does not exist'], status=HTTP_400_BAD_REQUEST)
+        return Response(status=HTTP_204_NO_CONTENT)
