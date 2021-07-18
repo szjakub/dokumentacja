@@ -2,7 +2,7 @@ from django.contrib import admin
 from school.models import (
     School, SchoolClass, Student, Subject
 )
-from .forms import SchoolForm
+from .forms import SchoolForm, StudentForm, SubjectForm
 
 
 class SchoolAdmin(admin.ModelAdmin):
@@ -16,12 +16,21 @@ class ClassAdmin(admin.ModelAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    fields = ('school', 'school_class')
+    list_display = ('pk', 'school', 'first_name', 'last_name', 'user')
+
+    @admin.display(empty_value='???')
+    def first_name(self, obj):
+        return obj.user.first_name
+
+    @admin.display(empty_value='???')
+    def last_name(self, obj):
+        return obj.user.last_name
 
 
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
-    fields = ('subject_name', )
+    form = SubjectForm
+    list_display = ('id', 'subject_name', 'school')
 
 
 admin.site.register(School, SchoolAdmin)

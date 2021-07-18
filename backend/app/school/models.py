@@ -67,6 +67,9 @@ class Subject(models.Model):
     class Meta:
         unique_together = ['school', 'subject_name']
 
+    def __str__(self):
+        return f'{self.subject_name} at {str(self.school)}'
+
 
 class Lesson(models.Model):
     school = models.ForeignKey(School, related_name='school_lessons', on_delete=models.CASCADE)
