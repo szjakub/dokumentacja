@@ -3,7 +3,7 @@ from rest_framework import serializers
 from api.validators import school_class_label_validator
 from users.utils import username_generator, password_generator
 from mail.tasks import student_created_email, school_request_email
-from school.models import School, SchoolClass, Student, Principal, Subject
+from school.models import School, SchoolClass, Student, Principal, Subject, Lesson
 
 User = get_user_model()
 
@@ -188,3 +188,36 @@ class SubjectSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Subject with such name already exist')
         return subject
 
+
+class LessonReadOnlySerializer(serializers.ModelSerializer):
+    subject = SubjectSerializer()
+    school_class = SchoolClassModelSerializer()
+
+    class Meta:
+        model = Lesson
+        fields = ['pk', 'subject', 'school_class', 'day', 'start_time', 'duration']
+
+
+class LessonSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Lesson
+        fields = ['pk', 'subject', 'school_class', 'day', 'start_time', 'duration']
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        principal = Principal.objects.get(user=request.user)
+        school = School.objects.get(school_principal=principal)
+
+        subject_queryset = Subject.objects.filter(school=school)
+        school_class_queryset = Subject.objects.filter(school=school)
+
+        try:
+            subject = subject_queryset.objects.get(id=validated_data.pop('subject'))
+            school_class = school_class_queryset.objects.get(id=validated_data.pop('school_class'))
+        except Exception as e:
+            raise serializers.ValidationError(repr(e))
+
+        lesson = Lesson.objects.create(
+            school=school, subject=subject, school_class=school_class, **validated_data)
+        return lesson
