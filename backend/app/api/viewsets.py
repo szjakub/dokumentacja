@@ -11,12 +11,13 @@ from rest_framework.response import Response
 
 from drf_spectacular.utils import extend_schema, OpenApiExample
 
-from school.models import SchoolClass, School, Principal, Student, Subject
+from school.models import SchoolClass, School, Principal, Student, Subject, Lesson
 
 from api.permissions import PrincipalAccessPermission, PTAccessPermission, PTSAccessPermission
 from api.serializers import (
     SchoolClassSerializer, SchoolRequestSerializer, StudentSerializer,
-    StudentReadOnlySerializer, SubjectSerializer
+    StudentReadOnlySerializer, SubjectSerializer, LessonSerializer,
+    LessonReadOnlySerializer
 )
 
 
@@ -190,4 +191,41 @@ class SubjectViewSet(CyprusViewSet):
         deleted, _ = queryset.filter(pk=pk).delete()
         if not deleted:
             return Response(['subject does not exist'], status=HTTP_400_BAD_REQUEST)
+        return Response(status=HTTP_204_NO_CONTENT)
+
+
+class LessonViewSet(CyprusViewSet):
+    queryset = Lesson.objects.none()
+    permission_classes_by_action = {
+        'list': [PTAccessPermission],
+        'create': [PrincipalAccessPermission],
+        'destroy': [PrincipalAccessPermission]
+    }
+
+    def get_queryset(self):
+        role_class = self.request.user.get_role_class()
+        role_instance = role_class.objects.get(user=self.request.user)
+        return Subject.objects.filter(school=role_instance.school)
+
+    @extend_schema(responses={200: LessonReadOnlySerializer}, )
+    def list(self, request):
+        serializer = LessonSerializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+    @extend_schema(
+        request=LessonSerializer,
+        responses={201: LessonSerializer}, )
+    def create(self, request):
+        serializer = LessonSerializer(
+            data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk):
+        queryset = self.get_queryset()
+        deleted, _ = queryset.filter(pk=pk).delete()
+        if not deleted:
+            return Response(['lesson does not exist'], status=HTTP_400_BAD_REQUEST)
         return Response(status=HTTP_204_NO_CONTENT)
